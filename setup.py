@@ -20,7 +20,7 @@ setup(
             "pytest>=3.6",
         ],
     },
-    url="",
+    url="https://github.com/jlpl/smear-api-tools",
     author="Janne Lampilahti",
     author_email="janne.lampilahti@helsinki.fi",
 )
