@@ -26,14 +26,15 @@ def isDatetimeIterable(obj):
 def parse(year, month, day, hour, minute, second):
     return year+ '-' +month+ '-' +day+ ' ' +hour+ ':' +minute+ ':' +second
 
-def getData(tablevariables,dates=None,start=None,end=None,quality='ANY',averaging='NONE',avg_type='NONE'):
+def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1',avg_type='NONE'):
     """ Get timeseries of variables using Smart SMEAR API 
     
     Parameters
     ----------
 
-    tablevariables: string or array of strings
+    variables: string or array of strings
         name of a measured quantity in the database
+        (tablevariable)
 
     dates: datetime object or array of datetime objects
         the date(s) for which measurements are downloaded
@@ -45,10 +46,10 @@ def getData(tablevariables,dates=None,start=None,end=None,quality='ANY',averagin
         end of measurement
     
     quality: string
-        "ANY" or "CHECKED"
+        "ANY"
     
     averaging: string
-        "NONE" or "30MIN" or "60MIN" or "1HOUR"
+        "1" (no averaging) or "30" (30 min) or "60" (60 min)
     
     avg_type: string
         "NONE" or "ARITHMETIC" or "MEDIAN" or "MIN" or "MAX"
@@ -59,15 +60,23 @@ def getData(tablevariables,dates=None,start=None,end=None,quality='ANY',averagin
     pandas DataFrame or list of DataFrames
         downloaded data, list is given for array of date objects
 
+        In the dataframes:
+        index   : time
+        columns : variables
+        values  : data
 
     """
 
-    if isStrIterable(tablevariables):
-        x = ','.join(list(tablevariables))
-    elif isStr(tablevariables):
-        x = tablevariables
+    if isStrIterable(variables):
+        col_names = [x for x in variables]
+        tablevariables = ['&tablevariable='+x for x in variables]
+        variable_string = ''.join(list(tablevariables))
+
+    elif isStr(variables):
+        col_names = [variables]
+        variable_string = '&tablevariable='+variables
     else:
-        raise Exception('"tablevariables" must be string or array of strings')
+        raise Exception('"variables" must be string or array of strings')
 
     if ((start is not None) and (end is not None)):
    
@@ -76,18 +85,21 @@ def getData(tablevariables,dates=None,start=None,end=None,quality='ANY',averagin
         else:
             raise Exception('"start" and "end" must be datetime objects')
 
-        st=start.strftime("%Y-%m-%d %H:%M:%S")
-        et=end.strftime("%Y-%m-%d %H:%M:%S")
+        st=start.strftime("%Y-%m-%dT%H:%M:%S")
+        et=end.strftime("%Y-%m-%dT%H:%M:%S")
 
         try:
-            data = pd.read_csv('https://avaa.tdata.fi/smear-services/smeardata.jsp?'\
-                                +'tablevariables='+x\
-                                +'&from='+st.replace(' ','%20')\
-                                +'&to='+et.replace(' ','%20')\
-                                +'&quality='+quality\
-                                +'&averaging='+averaging\
-                                +'&type='+avg_type\
-                                +'&format=CSV', parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+ 
+            url_string = 'https://smear-backend.rahtiapp.fi/search/timeseries/csv?'\
+                            +variable_string\
+                            +'&from='+st.replace(':','%3A')\
+                            +'&to='+et.replace(':','%3A')\
+                            +'&quality='+quality\
+                            +'&interval='+averaging\
+                            +'&aggregation='+avg_type
+
+            data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser = parse) 
+
         except:
             return pd.DataFrame([])            
        
@@ -96,6 +108,8 @@ def getData(tablevariables,dates=None,start=None,end=None,quality='ANY',averagin
         else:
             data.set_index('Year_Month_Day_Hour_Minute_Second',drop=True,inplace=True)
             data.index.names=['time']
+            data = data.reindex(col_names, axis=1)
+            data.columns = col_names
             return data
 
     elif dates is not None:
@@ -110,27 +124,31 @@ def getData(tablevariables,dates=None,start=None,end=None,quality='ANY',averagin
 
         datas = []
         for t in dates:
-            st=t.strftime("%Y-%m-%d %H:%M:%S")
-            et=(t+timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
+            st=t.strftime("%Y-%m-%dT%H:%M:%S")
+            et=(t+timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%S")
 
             try:
-                data = pd.read_csv('https://avaa.tdata.fi/smear-services/smeardata.jsp?'\
-                                    +'tablevariables='+x\
-                                    +'&from='+st.replace(' ','%20')\
-                                    +'&to='+et.replace(' ','%20')\
-                                    +'&quality='+quality\
-                                    +'&averaging='+averaging\
-                                    +'&type='+avg_type\
-                                    +'&format=CSV', parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+
+                url_string = 'https://smear-backend.rahtiapp.fi/search/timeseries/csv?'\
+                            +variable_string\
+                            +'&from='+st.replace(':','%3A')\
+                            +'&to='+et.replace(':','%3A')\
+                            +'&quality='+quality\
+                            +'&interval='+averaging\
+                            +'&aggregation='+avg_type
+
+                data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser = parse) 
+
             except:
                 continue
-
 
             if data.empty:
                 continue
 
             data.set_index('Year_Month_Day_Hour_Minute_Second',drop=True,inplace=True)
             data.index.names=['time']
+            data = data.reindex(col_names, axis=1)
+            data.columns = col_names
             datas.append(data)
 
         if ((datas==[]) & (is_date_list==True)):
@@ -145,40 +163,35 @@ def getData(tablevariables,dates=None,start=None,end=None,quality='ANY',averagin
     else:
         raise Exception('Missing "start" and "end" or "dates"')
 
-
 def listAllData():
-    """ List all variables in the SMEAR database """
+    """ List and describe all variables in the SMEAR database """
 
-    # Table metadata
-    with urllib.request.urlopen('https://avaa.tdata.fi/smart-smear-portlet/tablemetadata.jsp?') as url:
-        tablemetadata = json.loads(url.read().decode())
+    variable_meta_url="https://smear-backend.rahtiapp.fi/search/variable"
 
     # Variable metadata
-    with urllib.request.urlopen('https://avaa.tdata.fi/smart-smear-portlet/variablemeta.jsp?') as url:
+    with urllib.request.urlopen(variable_meta_url) as url:
         variablemetadata = json.loads(url.read().decode())
 
     # Create dataframe with description and variable name
-    df = pd.DataFrame(columns=['source','description','tablevariable'])
+    df = pd.DataFrame(columns=['description','tablevariable','source'])
     for x in variablemetadata:
 
-        findex = next((i for i, item in enumerate(tablemetadata) if item["_tableID"] == x["_tableID"]), None)
-
-        df2 = pd.DataFrame([[tablemetadata[findex]['_title'],
-                           x['_title'],
-                           tablemetadata[findex]['_name']+'.'+x['_variable']]],columns=['source','description','tablevariable'])
+        df2 = pd.DataFrame([[x['description'],
+                           x['tableName']+'.'+x['name'],
+                           x['source']]],columns=['description','tablevariable','source'])
         df=df.append(df2,ignore_index=True)
 
     return df
 
 
-def getVariableMetadata(tablevariables):
+def getVariableMetadata(variables):
     """ Get variable metadata using Smart SMEAR API 
     
     Parameters
     ----------
 
-    tablevariables: string or array of strings
-        name of a measured quantity in the database
+    variables: string or array of strings
+        name (tablevariable) of a measured quantity in the database
 
     Returns
     -------
@@ -188,23 +201,27 @@ def getVariableMetadata(tablevariables):
         
     """
 
-    if isStrIterable(tablevariables):
-        x = ','.join(list(tablevariables))
-    elif isStr(tablevariables):
-        x = tablevariables
+    if isStrIterable(variables):
+        col_names = [x for x in variables]
+        tablevariables = ['&tablevariable='+x for x in variables]
+        variable_string = ''.join(list(tablevariables))
+    elif isStr(variables):
+        col_names = [variables]
+        variable_string = '&tablevariable='+variables
     else:
-        raise Exception('"tablevariables" must be string or array of strings')
+        raise Exception('"variables" must be string or array of strings')
 
-    with urllib.request.urlopen('https://avaa.tdata.fi/smart-smear-portlet/variablemeta.jsp?tablevariables='+x) as url:
-        try:
+    meta_url = 'https://smear-backend.rahtiapp.fi/search/variable?'+variable_string
+
+    try:
+        with urllib.request.urlopen(meta_url) as url:
             metadata = json.loads(url.read().decode())
-        except:
-            metadata = []
+    except:
+        metadata = []
            
     return metadata
 
-
-def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',averaging='NONE',avg_type='NONE'):
+def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',averaging='1',avg_type='NONE'):
     """ Get DMPS data using Smart SMEAR API 
     
     Parameters
@@ -223,10 +240,10 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
         end time for data
     
     quality: string
-        "ANY" or "CHECKED"
+        "ANY"
     
     averaging: string
-        "NONE" or "30MIN" or "60MIN" or "1HOUR"
+        "1" (no averaging) or "30" (30 minutes) or "60" (60 minutes)
     
     avg_type: str
         "NONE" or "ARITHMETIC" or "MEDIAN" or "MIN" or "MAX"
@@ -306,8 +323,9 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
     'd100e4']
 
     if ((station=='HYY') | (station=='KUM') | (station=='VAR')):
-        tablevariables = [station + '_DMPS.'+x for x in variables]
-        x = ','.join(list(tablevariables))
+        col_names = [station + '_DMPS.'+x for x in variables]
+        tablevariables = ['&tablevariable='+station + '_DMPS.'+x for x in variables]
+        x = ''.join(list(tablevariables))
         dp = [float(x[1:])*0.001*1e-9 for x in variables]
     else:
         raise Exception('"station" must be "HYY", "KUM" or "VAR"')
@@ -319,23 +337,29 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
         else:
             raise Exception('"start" and "end" must to be datetime objects')
 
-        st=start.strftime("%Y-%m-%d %H:%M:%S")
-        et=end.strftime("%Y-%m-%d %H:%M:%S")
+        st=start.strftime("%Y-%m-%dT%H:%M:%S")
+        et=end.strftime("%Y-%m-%dT%H:%M:%S")
 
-        data = pd.read_csv('https://avaa.tdata.fi/smear-services/smeardata.jsp?'\
-                            +'tablevariables='+x\
-                            +'&from='+st.replace(' ','%20')\
-                            +'&to='+et.replace(' ','%20')\
+        url_string = 'https://smear-backend.rahtiapp.fi/search/timeseries/csv?'\
+                            +x\
+                            +'&from='+st.replace(':','%3A')\
+                            +'&to='+et.replace(':','%3A')\
                             +'&quality='+quality\
-                            +'&averaging='+averaging\
-                            +'&type='+avg_type\
-                            +'&format=CSV', parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+                            +'&interval='+averaging\
+                            +'&aggregation='+avg_type
+
+        
+        try:
+            data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+        except:
+            return pd.DataFrame([])
 
         if data.empty:
             return pd.DataFrame([])
         else:
             data.set_index('Year_Month_Day_Hour_Minute_Second',drop=True,inplace=True)
             data.index.names=['time']
+            data = data.reindex(col_names, axis=1)
             data.columns = dp
             return data
 
@@ -351,23 +375,28 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
 
         datas = []
         for t in dates:
-            st=t.strftime("%Y-%m-%d %H:%M:%S")
-            et=(t+timedelta(days=1)).strftime("%Y-%m-%d %H:%M:%S")
+            st=t.strftime("%Y-%m-%dT%H:%M:%S")
+            et=(t+timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%S")
 
-            data = pd.read_csv('https://avaa.tdata.fi/smear-services/smeardata.jsp?'\
-                                +'tablevariables='+x\
-                                +'&from='+st.replace(' ','%20')\
-                                +'&to='+et.replace(' ','%20')\
+            html_string = 'https://smear-backend.rahtiapp.fi/search/timeseries/csv?'\
+                                +x\
+                                +'&from='+st.replace(':','%3A')\
+                                +'&to='+et.replace(':','%3A')\
                                 +'&quality='+quality\
-                                +'&averaging='+averaging\
-                                +'&type='+avg_type\
-                                +'&format=CSV', parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+                                +'&interval='+averaging\
+                                +'&aggregation='+avg_type
+     
+            try:
+                data = pd.read_csv(html_string, parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+            except:
+                continue
 
             if data.empty:
                 continue
 
             data.set_index('Year_Month_Day_Hour_Minute_Second',drop=True,inplace=True)
             data.index.names=['time']
+            data = data.reindex(col_names, axis=1)
             data.columns = dp
             datas.append(data)
 

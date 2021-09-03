@@ -13,8 +13,8 @@ t2_i=pd.to_datetime('2030-07-05')
 tr_i=pd.date_range(start='2030-07-01',end='2030-07-05')
 
 # valid variable names
-var='HYY_META.Pamb0'
-var_list=['HYY_META.Pamb0','HYY_META.T04icos']
+var="HYY_META.Pamb0"
+var_list=["HYY_META.Pamb0","HYY_META.T04icos"]
 
 # valid but nonexistent variable names
 var_i='fake_variable'
@@ -23,7 +23,6 @@ var_list_i=['fake_variable1','fake_variable2']
 # erroneous values
 b=1
 b_list=[1,2,3]
-
 
 # getVariableMetadata
 

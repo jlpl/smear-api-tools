@@ -1,6 +1,6 @@
 # SMEAR API Tools
 
-This projects contains functions that help interacting with the Smart SMEAR API.
+This projects contains functions that help interacting with the SmartSMEAR API.
 
 ## Installation
 
@@ -35,7 +35,4 @@ listAllData().to_csv("all_data.csv")
 
 Junninen, H., Lauri, A., Keronen, P., Aalto, P., Hiltunen, V., Hari, P., Kulmala, M. 2009. Smart-SMEAR: on-line data exploration and visualization tool for SMEAR stations. Boreal Environment Research 14, 447–457.
 
-https://avaa.tdata.fi/web/smart/smear/api
-
-https://avaa.tdata.fi/web/smart/smear/terms-of-use
-
+https://smear.avaa.csc.fi/
