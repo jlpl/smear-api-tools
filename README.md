@@ -1,6 +1,6 @@
 # SMEAR API Tools
 
-This projects contains functions that help interacting with the SmartSMEAR API.
+This project contains functions that help interacting with the SmartSMEAR API.
 
 ## Installation
 
