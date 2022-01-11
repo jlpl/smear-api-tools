@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import urllib.request, json
 from collections import Iterable
 from datetime import datetime, timedelta
@@ -20,6 +21,20 @@ def isDatetimeIterable(obj):
     result=False
     if isinstance(obj,Iterable):
         if all(isinstance(elem,datetime) for elem in obj):
+            result=True
+    return result
+
+def isNumeric(obj):
+    try:
+        float(obj)
+        return True
+    except:
+        return False
+
+def isNumericIterable(obj):
+    result=False
+    if isinstance(obj,Iterable):
+        if all(isNumeric(elem) for elem in obj):
             result=True
     return result
 
@@ -254,9 +269,9 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
     pandas DataFrame or list of DataFrames
         downloaded data, list is given when dates is array    
      
-        index   : time
-        columns : bin geometric mean diameters
-        values  : dN/dlogDp
+        index   : time (utc+2)
+        columns : bin geometric mean diameters (m)
+        values  : dN/dlogDp (cm-3)
 
     """
 
@@ -335,7 +350,7 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
         if (isDatetime(start) & isDatetime(end)):
             pass
         else:
-            raise Exception('"start" and "end" must to be datetime objects')
+            raise Exception('"start" and "end" must be datetime objects')
 
         st=start.strftime("%Y-%m-%dT%H:%M:%S")
         et=end.strftime("%Y-%m-%dT%H:%M:%S")
@@ -411,3 +426,105 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
 
     else:
         raise Exception('Missing "start" and "end" or "dates"')
+
+
+
+def calc_concentration(dp,data,dmin,dmax):
+
+    findex=np.argwhere((dp<=dmax)&(dp>=dmin)).flatten()
+    dp=dp[findex]
+    conc=data[:,findex]
+    logdp_mid=np.log10(dp)
+    logdp=(logdp_mid[:-1]+logdp_mid[1:])/2.0
+    logdp=np.append(logdp,logdp_mid.max()+(logdp_mid.max()-logdp.max()))
+    logdp=np.insert(logdp,0,logdp_mid.min()-(logdp.min()-logdp_mid.min()))
+    dlogdp=np.diff(logdp)
+    return np.nansum(conc*dlogdp,axis=1)
+
+
+def getConcData(station='HYY',dp1=None,dp2=None,start=None,end=None,dates=None,quality='ANY',averaging='1',avg_type='NONE'):
+    """ Get number concentration in a size range 
+    
+    Parameters
+    ----------
+
+    station: string
+        "HYY", "KUM" or "VAR"
+
+    dp1: float
+        Lower diameter limit
+
+    dp2: float
+        Upper diameter limit
+
+    dates: datetime object or array of datetime objects
+        the days for which data is are downloaded
+
+    start: datetime object
+        begin time for data
+
+    end: datetime object
+        end time for data
+    
+    quality: string
+        "ANY"
+    
+    averaging: string
+        "1" (no averaging) or "30" (30 minutes) or "60" (60 minutes)
+    
+    avg_type: str
+        "NONE" or "ARITHMETIC" or "MEDIAN" or "MIN" or "MAX"
+
+    Returns
+    -------
+    
+    pandas DataFrame or list of DataFrames
+        Calculated number concentrations, 
+        list is given when dates is array    
+     
+        index   : time (utc+2)
+        values  : number concs [cm-3]
+    """
+   
+    # Use the getDmpsData to retrieve size distribution data
+    dmpsData = getDmpsData(station=station,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+ 
+    if len(dmpsData)==0:
+        return dmpsData
+
+    if (dp1 is not None) and (dp2 is not None):
+
+        if (isNumeric(dp1) and isNumeric(dp2)):
+
+            if isinstance(dmpsData,list):
+
+                result=[]
+                for x in dmpsData:
+                    time = x.index.values
+                    diams = x.columns.values
+                    dndlogdp = x.values
+                    conc = calc_concentration(diams,dndlogdp,dp1,dp2)
+                    df = pd.DataFrame(index=time, columns=['conc'], data=conc)
+                    result.append(df)
+                return result
+
+            else:
+                time = dmpsData.index.values
+                diams = dmpsData.columns.values
+                dndlogdp = dmpsData.values
+                conc = calc_concentration(diams,dndlogdp,dp1,dp2)
+                result = pd.DataFrame(index=time, columns=['conc'], data=conc)
+                return result
+
+        else:
+            raise Exception('"dp1" and "dp2" must be numeric')
+
+    else:
+        raise Exception('Missing "dp1" and "dp2"')
+
+       
+
+
+  
+  
+

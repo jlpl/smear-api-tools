@@ -24,6 +24,14 @@ var_list_i=['fake_variable1','fake_variable2']
 b=1
 b_list=[1,2,3]
 
+# valid diameter values
+d1=1e-9
+d2=100e-9
+
+# invalid diameter values
+d1_err=[1,2,3]
+d2_err="asd"
+
 # getVariableMetadata
 
 def test_getVariableMetadata_err1():
@@ -133,4 +141,46 @@ def test_getDmpsData_val2():
     assert sapi.getDmpsData(dates=tr)!=[]
 def test_getDmpsData_val3():
     assert sapi.getDmpsData(start=t1,end=t2).empty==False
+
+
+# getConcData
+
+# Erroneous values
+def test_getConcData_err1():
+     with pytest.raises(Exception):
+        sapi.getConcData()
+def test_getConcData_err2():
+     with pytest.raises(Exception):
+        sapi.getConcData(station=b)
+def test_getConcData_err3():
+     with pytest.raises(Exception):
+        sapi.getConcData(dates=b)
+def test_getConcData_err4():
+     with pytest.raises(Exception):
+        sapi.getConcData(dates=b_list)
+def test_getConcData_err5():
+     with pytest.raises(Exception):
+        sapi.getConcData(start=b,end=t2)
+def test_getConcData_err6():
+     with pytest.raises(Exception):
+        sapi.getConcData(start=t1,end=b)
+def testgetConcData_err7():
+     with pytest.raises(Exception):
+        sapi.getConcData(dates=t1,dp1=d1_err,dp2=d2_err)
+
+# Valid but impossible values
+def test_getConcData_imm1():
+    assert sapi.getConcData(dates=t1_i).empty==True
+def test_getConcData_imm2():
+    assert sapi.getConcData(dates=tr_i)==[]
+def test_getConcData_imm3():
+    assert sapi.getConcData(start=t1_i,end=t2_i).empty==True
+
+# Valid values
+def test_getConcData_val1():
+    assert sapi.getConcData(dp1=d1,dp2=d2,dates=t1).empty==False
+def test_getConcData_val2():
+    assert sapi.getConcData(dp1=d1,dp2=d2,dates=tr)!=[]
+def test_getConcData_val3():
+    assert sapi.getConcData(dp1=d1,dp2=d2,start=t1,end=t2).empty==False
 
