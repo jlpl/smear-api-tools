@@ -6,7 +6,7 @@ with open("README.md","r") as fh:
 
 setup(
     name="smear-api-tools",
-    version="0.1.1",
+    version="0.2.1",
     description='Utility functions for using the SmartSMEAR API',
     py_modules=["smear_api_tools"],
     package_dir={'':'src'},
@@ -14,6 +14,7 @@ setup(
     long_description_content_type="text/markdown",
     install_requires = [
         "pandas >= 1.0.0",
+        "numpy >= 1.19.0"
     ],
     extras_require = {
         "dev": [

@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import urllib.request, json
-from collections import Iterable
+from collections.abc import Iterable
 from datetime import datetime, timedelta
 
 def isStr(obj):
@@ -51,13 +51,13 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
         name of a measured quantity in the database
         (tablevariable)
 
-    dates: datetime object or array of datetime objects
+    dates: datetime object or string or array of datetime objects or strings
         the date(s) for which measurements are downloaded
 
-    start: datetime object
+    start: datetime object or string
         begin of measurement
 
-    end: datetime object
+    end: datetime object or string
         end of measurement
     
     quality: string
@@ -93,12 +93,18 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
     else:
         raise Exception('"variables" must be string or array of strings')
 
+    if ((start is not None) and (end is not None) and (dates is not None)):
+        raise Exception('Give either "start" and "end" or "dates"')
+    
     if ((start is not None) and (end is not None)):
-   
+        
         if (isDatetime(start) & isDatetime(end)):
             pass
+        elif (isStr(start) & isStr(end)):
+            start=pd.to_datetime(start)
+            end=pd.to_datetime(end)    
         else:
-            raise Exception('"start" and "end" must be datetime objects')
+            raise Exception('"start" and "end" must be datetime objects or strings')
 
         st=start.strftime("%Y-%m-%dT%H:%M:%S")
         et=end.strftime("%Y-%m-%dT%H:%M:%S")
@@ -134,8 +140,14 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
         elif isDatetime(dates):
             dates = [dates]
             is_date_list=False
+        elif isStrIterable(dates):
+            dates = pd.to_datetime(dates)
+            is_date_list=True
+        elif isStr(dates):
+            dates = [pd.to_datetime(dates)]
+            is_date_list=False
         else:
-            raise Exception('"dates" must be datetime object or array of datetime objects')
+            raise Exception('"dates" must be datetime object or string or array of datetime objects or strings')
 
         datas = []
         for t in dates:
@@ -178,26 +190,128 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
     else:
         raise Exception('Missing "start" and "end" or "dates"')
 
-def listAllData():
-    """ List and describe all variables in the SMEAR database """
+def listAllData(search_term=None,verbose=False):
+    """ List and describe variables in the SMEAR database 
+
+    Parameters
+    ----------
+    
+    search_term: string
+        search term for searching the database
+
+    verbose: boolean
+        verbose or not verbose output
+
+    Returns
+    -------
+
+    df: pandas DataFrame
+
+        rows: represent different variables
+
+        if verbose is True:
+        
+            columns:
+                title: name of the variable
+                tablevariable: name used when downloading data
+                description: description of the measurement
+                source: instrument producing the data
+
+        if verbose is False:
+
+            columns:
+                title: name of the variable
+                tablevariable: name used when downloading data
+
+    If search_term is given return only variables that
+    contain the search_term in their title, otherwise
+    return all variables in the database.
+
+    """
+
+    # Find variables that contain the search_term in their title
+    if search_term is not None:
+        if isStr(search_term):
+            pass
+        else:
+            raise Exception('"search_term" should be a string')
+
+    if isinstance(verbose,bool):
+        pass
+    else:
+        raise Exception('"verbose" should be True or False')
 
     variable_meta_url="https://smear-backend.rahtiapp.fi/search/variable"
+
+    nums = list("0123456789x") 
+    numssub = list("₀₁₂₃₄₅₆₇₈₉ₓ")
 
     # Variable metadata
     with urllib.request.urlopen(variable_meta_url) as url:
         variablemetadata = json.loads(url.read().decode())
 
     # Create dataframe with description and variable name
-    df = pd.DataFrame(columns=['description','tablevariable','source'])
+    df_verb = pd.DataFrame(columns=['title','tablevariable','description','source'])
+    df_short = pd.DataFrame(columns=['title','tablevariable'])
+
     for x in variablemetadata:
 
-        df2 = pd.DataFrame([[x['description'],
-                           x['tableName']+'.'+x['name'],
-                           x['source']]],columns=['description','tablevariable','source'])
-        df=df.append(df2,ignore_index=True)
+        if verbose:
+
+            title = str(x['title'])
+            tablevariable = x['tableName']+'.'+x['name']
+            description = str(x['description'])
+            source = str(x['source'])
+
+            # Replace subscripted numbers with normal numbers in the names
+            if isStr(title):
+                for i in range(len(nums)):
+                    title = title.replace(numssub[i], nums[i])
+    
+            if isStr(description):
+                for i in range(len(nums)):
+                    description = description.replace(numssub[i], nums[i])
+    
+            if isStr(source):
+                for i in range(len(nums)):
+                    source = source.replace(numssub[i], nums[i])
+    
+            df2 = pd.DataFrame([[
+                title, 
+                tablevariable,
+                description,
+                source]],
+                columns=['title','tablevariable','description','source'])
+
+            df_verb = df_verb.append(df2,ignore_index=True)
+ 
+        else:
+
+            title = str(x['title'])
+            tablevariable = x['tableName']+'.'+x['name']
+
+            # Replace subscripted numbers with normal numbers in the names
+            if isStr(title):
+                for i in range(len(nums)):
+                    title = title.replace(numssub[i], nums[i])
+    
+            df2 = pd.DataFrame([[
+                title, 
+                tablevariable]],
+                columns=['title','tablevariable'])
+
+            df_short = df_short.append(df2,ignore_index=True)
+
+    if verbose:
+        df = df_verb
+    else:
+        df = df_short    
+
+    # Find variables that contain the search_term in their title
+    if search_term is not None:
+        df = df.loc[df['title'].str.lower().str.find(search_term.lower())!=-1.0,:]
 
     return df
-
 
 def getVariableMetadata(variables):
     """ Get variable metadata using Smart SMEAR API 
@@ -245,13 +359,13 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
     station: string
         "HYY", "KUM" or "VAR"
 
-    dates: datetime object or array of datetime objects
+    dates: datetime object or string or array of datetime objects or strings
         the days for which data is are downloaded
 
-    start: datetime object
+    start: datetime object or string
         begin time for data
 
-    end: datetime object
+    end: datetime object or string
         end time for data
     
     quality: string
@@ -346,11 +460,14 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
         raise Exception('"station" must be "HYY", "KUM" or "VAR"')
 
     if ((start is not None) and (end is not None)):
-        
+
         if (isDatetime(start) & isDatetime(end)):
             pass
+        elif (isStr(start) & isStr(end)):
+            start=pd.to_datetime(start)
+            end=pd.to_datetime(end)    
         else:
-            raise Exception('"start" and "end" must be datetime objects')
+            raise Exception('"start" and "end" must be datetime objects or strings')
 
         st=start.strftime("%Y-%m-%dT%H:%M:%S")
         et=end.strftime("%Y-%m-%dT%H:%M:%S")
@@ -385,8 +502,14 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
         elif isDatetime(dates):
             dates = [dates]
             is_date_list=False
+        elif isStrIterable(dates):
+            dates = pd.to_datetime(dates)
+            is_date_list=True
+        elif isStr(dates):
+            dates = [pd.to_datetime(dates)]
+            is_date_list=False
         else:
-            raise Exception('"dates" must be datetime object or array of datetime objects')
+            raise Exception('"dates" must be datetime object or string or array of datetime objects or strings')
 
         datas = []
         for t in dates:
@@ -432,6 +555,8 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
 def calc_concentration(dp,data,dmin,dmax):
 
     findex=np.argwhere((dp<=dmax)&(dp>=dmin)).flatten()
+    if len(findex)==0:
+        return np.nan*np.ones(data.shape[0])
     dp=dp[findex]
     conc=data[:,findex]
     logdp_mid=np.log10(dp)
@@ -439,7 +564,7 @@ def calc_concentration(dp,data,dmin,dmax):
     logdp=np.append(logdp,logdp_mid.max()+(logdp_mid.max()-logdp.max()))
     logdp=np.insert(logdp,0,logdp_mid.min()-(logdp.min()-logdp_mid.min()))
     dlogdp=np.diff(logdp)
-    return np.nansum(conc*dlogdp,axis=1)
+    return np.sum(conc*dlogdp,axis=1)
 
 
 def getConcData(station='HYY',dp1=None,dp2=None,start=None,end=None,dates=None,quality='ANY',averaging='1',avg_type='NONE'):
@@ -496,6 +621,10 @@ def getConcData(station='HYY',dp1=None,dp2=None,start=None,end=None,dates=None,q
 
         if (isNumeric(dp1) and isNumeric(dp2)):
 
+            # dp2 must be greater than dp1
+            if dp2<=dp1:
+                raise Exception("dp2>dp1")
+
             if isinstance(dmpsData,list):
 
                 result=[]
@@ -521,10 +650,4 @@ def getConcData(station='HYY',dp1=None,dp2=None,start=None,end=None,dates=None,q
 
     else:
         raise Exception('Missing "dp1" and "dp2"')
-
-       
-
-
-  
-  
 

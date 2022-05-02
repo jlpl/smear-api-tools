@@ -22,13 +22,13 @@ v = getDmpsData(station='HYY',dates=may2018)
 ```
 
 ### Example 2
-List all variables in the database and write them to a file.
+List all variables that contain the term `SO2` in the database and write them to a file.
 
 ```python
 import pandas as pd
 from smear_api_tools import listAllData
 
-listAllData().to_csv("all_data.csv")
+listAllData("SO2").to_csv("all_so2_data.csv")
 ```
 
 ### Example 3
@@ -38,13 +38,8 @@ Download number concentration between 3 nm and 200 nm from the urban measurement
 import pandas as pd
 from smear_api_tools import getConcData
 
-first_day = pd.to_datetime('2021-01-01')
-last_day = pd.to_datetime('2021-12-31')
-
-c = getConcData(station='KUM',dp1=3e-9,dp2=200e-9,start=first_day,end=last_day)
+c = getConcData(station='KUM',dp1=3e-9,dp2=200e-9,start='2021-01-31',end='2021-12-31')
 ```
-
-
 
 ## Resources
 
