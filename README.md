@@ -22,7 +22,7 @@ v = getDmpsData(station='HYY',dates=may2018)
 ```
 
 ### Example 2
-List all variables that contain the term `SO2` in the database and write them to a file.
+List all variables that contain the term "SO2" in the database and write them to a file.
 
 ```python
 import pandas as pd
@@ -39,6 +39,17 @@ import pandas as pd
 from smear_api_tools import getConcData
 
 c = getConcData(station='KUM',dp1=3e-9,dp2=200e-9,start='2021-01-31',end='2021-12-31')
+```
+
+### Example 4
+Download condensation sink from Värriö research station between `2013-07-01` and
+`2013-07-05`
+
+```
+import pandas as pd
+from smear_api_tools import getCS
+
+cs = getCS(station='VAR',start="2013-07-01",end="2013-07-05")
 ```
 
 ## Resources

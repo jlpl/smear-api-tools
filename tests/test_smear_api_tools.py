@@ -51,34 +51,36 @@ d3_outside=3000e-9
 # getVariableMetadata
 
 @pytest.mark.parametrize("arg",[var_bad,var_list_bad])
-def test_getVariableMetadata1(arg):
+def test_getVariableMetadata_bad(arg):
     with pytest.raises(Exception):
         sapi.getVariableMetadata(arg)
 
-@pytest.mark.parametrize("arg,output",[
-    (var_impossible,[]),
-    (var_list_impossible,[])])      
-def test_getVariableMetadata2(arg,output):
-    assert len(sapi.getVariableMetadata(arg))==output
+@pytest.mark.parametrize("arg",[
+    (var_impossible),
+    (var_list_impossible)
+    ])      
+def test_getVariableMetadata_empty(arg):
+    assert len(sapi.getVariableMetadata(arg))==0
 
-@pytest.mark.parametrize("arg,output",[
-    (var_valid,[]),
-    (var_list_valid,[])])      
-def test_getVariableMetadata2(arg,output):
-    assert len(sapi.getVariableMetadata(arg))!=output
+@pytest.mark.parametrize("arg",[
+    (var_valid),
+    (var_list_valid)
+    ])      
+def test_getVariableMetadata_valid(arg):
+    assert len(sapi.getVariableMetadata(arg))>0
 
 
 # getData
 
 # Bad inputs
 @pytest.mark.parametrize("arg1,arg2,arg3,arg4,arg5",[
-    (var_valid,None,None,None,Exception),         # no dates
-    (var_bad,dt1_valid,None,None,Exception),       # bad var
-    (var_list_bad,dt1_valid,None,None,Exception),  # bad var list
-    (var_valid,dt_bad,None,None,Exception),        # bad date (dt)
-    (var_valid,dtstr_bad_value,None,None,ValueError),    # bad date (dtstr)       
-    (var_valid,None,dt_bad,dt2_valid,Exception),   # bad start (dt)
-    (var_valid,None,dtstr_bad_value,dtstr2_valid,ValueError) # bad start (dtstr)
+    (var_valid,None,None,None,Exception),         
+    (var_bad,dt1_valid,None,None,Exception),      
+    (var_list_bad,dt1_valid,None,None,Exception),  
+    (var_valid,dt_bad,None,None,Exception),        
+    (var_valid,dtstr_bad_value,None,None,ValueError),           
+    (var_valid,None,dt_bad,dt2_valid,Exception),   
+    (var_valid,None,dtstr_bad_value,dtstr2_valid,ValueError) 
     ])      
 def test_getData_bad(arg1,arg2,arg3,arg4,arg5):
     with pytest.raises(arg5):
@@ -86,17 +88,24 @@ def test_getData_bad(arg1,arg2,arg3,arg4,arg5):
    
 # Empty output
 @pytest.mark.parametrize("arg1,arg2,arg3,arg4",[
-    (var_valid,dt1_impossible,None,None),          # impossible date
-    (var_valid,dt_range_impossible,None,None),     # impossible dates
-    (var_valid,dtstr1_impossible,None,None),          # impossible datestr 
-    (var_valid,dtstr_range_impossible,None,None),     # impossible datestrs
-    (var_impossible,dt1_valid,None,None),          # impossible var
-    (var_list_impossible,dt1_valid,None,None),     # impossible var list
-    (var_valid,None,dtstr1_impossible,dtstr2_impossible), # impossible start and end (dtstr)     
-    (var_valid,None,dt1_impossible,dt2_impossible)   # impossible start and end (dt)
+    (var_valid,dt1_impossible,None,None),          
+    (var_valid,dtstr1_impossible,None,None),    
+    (var_impossible,dt1_valid,None,None),         
+    (var_list_impossible,dt1_valid,None,None),    
+    (var_valid,None,dtstr1_impossible,dtstr2_impossible),      
+    (var_valid,None,dt1_impossible,dt2_impossible)   
     ])      
-def test_getData_impossible(arg1,arg2,arg3,arg4):
-    assert len(sapi.getData(arg1,dates=arg2,start=arg3,end=arg4))==0
+def test_getData_empty(arg1,arg2,arg3,arg4):
+    assert sapi.getData(arg1,dates=arg2,start=arg3,end=arg4).empty==True
+
+# List of empty outputs
+@pytest.mark.parametrize("arg1,arg2,arg3,arg4",[
+    (var_valid,dt_range_impossible,None,None),
+    (var_valid,dtstr_range_impossible,None,None)
+    ])      
+def test_getData_list_empty(arg1,arg2,arg3,arg4):
+    df=sapi.getData(arg1,dates=arg2,start=arg3,end=arg4)
+    assert all([x.empty for x in df])==True
 
 # Nonempty output
 @pytest.mark.parametrize("arg1,arg2,arg3,arg4",[
@@ -151,14 +160,20 @@ def test_getDmpsData_bad(arg1,arg2,arg3,arg4):
 
 @pytest.mark.parametrize("arg1,arg2,arg3,arg4",[
     ('KUM',dt1_impossible,None,None),
-    ('KUM',dt_range_impossible,None,None),
-    ('KUM',dtstr_range_impossible,None,None),
     ('KUM',None,dt1_impossible,dt2_impossible),
     ('KUM',None,dtstr1_impossible,dtstr2_impossible)
     ])
 def test_getDmpsData_empty(arg1,arg2,arg3,arg4):
-    assert len(sapi.getDmpsData(station=arg1,dates=arg2,start=arg3,end=arg4))==0
+    assert sapi.getDmpsData(station=arg1,dates=arg2,start=arg3,end=arg4).empty==True
  
+@pytest.mark.parametrize("arg1,arg2,arg3,arg4",[
+    ('KUM',dt_range_impossible,None,None),
+    ('KUM',dtstr_range_impossible,None,None)
+    ])
+def test_getDmpsData_list_empty(arg1,arg2,arg3,arg4):
+    df=sapi.getDmpsData(station=arg1,dates=arg2,start=arg3,end=arg4)
+    assert all([x.empty for x in df])==True
+
 @pytest.mark.parametrize("arg1,arg2,arg3,arg4",[
     ('HYY',dt1_valid,None,None),
     ('HYY',dt_range_valid,None,None),
@@ -169,8 +184,6 @@ def test_getDmpsData_empty(arg1,arg2,arg3,arg4):
 def test_getDmpsData_valid(arg1,arg2,arg3,arg4):
     assert len(sapi.getDmpsData(station=arg1,dates=arg2,start=arg3,end=arg4))>0
  
-
-
 
 ## getConcData
 
@@ -191,14 +204,20 @@ def test_getConcData_bad(arg1,arg2,arg3,arg4,arg5,arg6):
    
 @pytest.mark.parametrize("arg1,arg2,arg3,arg4,arg5,arg6",[
     ('KUM',d1_valid,d2_valid,dt1_impossible,None,None),
-    ('KUM',d1_valid,d2_valid,dt_range_impossible,None,None),
-    ('KUM',d1_valid,d2_valid,dtstr_range_impossible,None,None),
     ('KUM',d1_valid,d2_valid,None,dt1_impossible,dt2_impossible),
     ('KUM',d1_valid,d2_valid,None,dtstr1_impossible,dtstr2_impossible)
 ])
 def test_getConcData_empty(arg1,arg2,arg3,arg4,arg5,arg6):
-    assert len(sapi.getConcData(station=arg1,dp1=arg2,dp2=arg3,dates=arg4,start=arg5,end=arg6))==0
- 
+    assert sapi.getConcData(station=arg1,dp1=arg2,dp2=arg3,dates=arg4,start=arg5,end=arg6).empty==True
+
+@pytest.mark.parametrize("arg1,arg2,arg3,arg4,arg5,arg6",[
+    ('KUM',d1_valid,d2_valid,dt_range_impossible,None,None),
+    ('KUM',d1_valid,d2_valid,dtstr_range_impossible,None,None)
+])
+def test_getConcData_list_empty(arg1,arg2,arg3,arg4,arg5,arg6):
+    df = sapi.getConcData(station=arg1,dp1=arg2,dp2=arg3,dates=arg4,start=arg5,end=arg6)
+    assert all([x.empty for x in df])==True
+
 @pytest.mark.parametrize("arg1,arg2,arg3,arg4,arg5,arg6",[
     ('KUM',d1_valid,d2_valid,dt1_valid,None,None),
     ('KUM',d1_valid,d2_valid,dt_range_valid,None,None),
@@ -208,7 +227,6 @@ def test_getConcData_empty(arg1,arg2,arg3,arg4,arg5,arg6):
     ])
 def test_getConcData_valid(arg1,arg2,arg3,arg4,arg5,arg6):
     assert len(sapi.getConcData(station=arg1,dp1=arg2,dp2=arg3,dates=arg4,start=arg5,end=arg6))>0
-    assert np.all(np.isnan(sapi.getConcData(station=arg1,dp1=arg2,dp2=arg3,dates=arg4,start=arg5,end=arg6)))==False
 
 @pytest.mark.parametrize("arg1,arg2,arg3,arg4,arg5,arg6",[
     ('KUM',d1_outside,d1_valid,dt1_valid,None,None),
@@ -216,3 +234,47 @@ def test_getConcData_valid(arg1,arg2,arg3,arg4,arg5,arg6):
     ])
 def test_getConcData_nans(arg1,arg2,arg3,arg4,arg5,arg6):
     assert np.all(np.isnan(sapi.getConcData(station=arg1,dp1=arg2,dp2=arg3,dates=arg4,start=arg5,end=arg6)))==True
+
+
+
+## getCS
+
+@pytest.mark.parametrize("arg1,arg2,arg3,arg4",[
+    ('KUM',None,None,None),
+    ('ASD',dt1_valid,None,None),
+    ('KUM',dt_bad,None,None),
+    ('KUM',dtstr_bad_value,None,None),
+    ('KUM',None,dt_bad,dt2_valid),
+    ('KUM',None,dtstr_bad_value,dtstr2_valid),
+])
+def test_getCS_bad(arg1,arg2,arg3,arg4):
+    with pytest.raises(Exception):
+        sapi.getCS(station=arg1,dates=arg2,start=arg3,end=arg4)
+   
+@pytest.mark.parametrize("arg1,arg2,arg3,arg4",[
+    ('KUM',dt1_impossible,None,None),
+    ('VAR',dtstr1_impossible,None,None),
+    ('HYY',None,dt1_impossible,dt2_impossible),
+    ('KUM',None,dtstr1_impossible,dtstr2_impossible)
+])
+def test_getCS_empty(arg1,arg2,arg3,arg4):
+    assert sapi.getCS(station=arg1,dates=arg2,start=arg3,end=arg4).empty==True
+
+@pytest.mark.parametrize("arg1,arg2,arg3,arg4",[
+    ('KUM',dt_range_impossible,None,None),
+    ('KUM',dtstr_range_impossible,None,None)
+])
+def test_getCS_list_empty(arg1,arg2,arg3,arg4):
+    df = sapi.getCS(station=arg1,dates=arg2,start=arg3,end=arg4)
+    assert all([x.empty for x in df])==True
+
+@pytest.mark.parametrize("arg1,arg2,arg3,arg4",[
+    ('KUM',dt1_valid,None,None),
+    ('KUM',dt_range_valid,None,None),
+    ('KUM',dtstr_range_valid,None,None),
+    ('KUM',None,dt1_valid,dt2_valid),
+    ('KUM',None,dtstr1_valid,dtstr2_valid)
+    ])
+def test_getCS_valid(arg1,arg2,arg3,arg4):
+    assert len(sapi.getCS(station=arg1,dates=arg2,start=arg3,end=arg4))>0
+

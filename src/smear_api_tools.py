@@ -167,9 +167,11 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
                 data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser = parse) 
 
             except:
+                datas.append(pd.DataFrame([]))
                 continue
 
             if data.empty:
+                datas.append(pd.DataFrame([]))
                 continue
 
             data.set_index('Year_Month_Day_Hour_Minute_Second',drop=True,inplace=True)
@@ -178,11 +180,7 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
             data.columns = col_names
             datas.append(data)
 
-        if ((datas==[]) & (is_date_list==True)):
-            return []
-        elif ((datas==[]) & (is_date_list==False)):
-            return pd.DataFrame([])
-        elif ((datas!=[]) & (is_date_list==False)):
+        if (is_date_list==False):
             return datas[0]
         else:
             return datas
@@ -527,9 +525,11 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
             try:
                 data = pd.read_csv(html_string, parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
             except:
+                datas.append(pd.DataFrame([]))
                 continue
 
             if data.empty:
+                datas.append(pd.DataFrame([]))
                 continue
 
             data.set_index('Year_Month_Day_Hour_Minute_Second',drop=True,inplace=True)
@@ -538,11 +538,7 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
             data.columns = dp
             datas.append(data)
 
-        if ((datas==[]) & (is_date_list==True)):
-            return []
-        elif ((datas==[]) & (is_date_list==False)):
-            return pd.DataFrame([])
-        elif ((datas!=[]) & (is_date_list==False)):
+        if (is_date_list==False):
             return datas[0]
         else:
             return datas
@@ -553,7 +549,7 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
 
 
 def calc_concentration(dp,data,dmin,dmax):
-
+    """ Calculate number concentration """
     findex=np.argwhere((dp<=dmax)&(dp>=dmin)).flatten()
     if len(findex)==0:
         return np.nan*np.ones(data.shape[0])
@@ -577,18 +573,18 @@ def getConcData(station='HYY',dp1=None,dp2=None,start=None,end=None,dates=None,q
         "HYY", "KUM" or "VAR"
 
     dp1: float
-        Lower diameter limit
+        Lower diameter limit in nanometers
 
     dp2: float
-        Upper diameter limit
+        Upper diameter limit in nanometers
 
-    dates: datetime object or array of datetime objects
+    dates: datetime object/string or array of datetime objects/strings
         the days for which data is are downloaded
 
-    start: datetime object
+    start: datetime object/string
         begin time for data
 
-    end: datetime object
+    end: datetime object/string
         end time for data
     
     quality: string
@@ -629,12 +625,15 @@ def getConcData(station='HYY',dp1=None,dp2=None,start=None,end=None,dates=None,q
 
                 result=[]
                 for x in dmpsData:
-                    time = x.index.values
-                    diams = x.columns.values
-                    dndlogdp = x.values
-                    conc = calc_concentration(diams,dndlogdp,dp1,dp2)
-                    df = pd.DataFrame(index=time, columns=['conc'], data=conc)
-                    result.append(df)
+                    if x.empty:
+                        result.append(pd.DataFrame([]))
+                    else:
+                        time = x.index.values
+                        diams = x.columns.values
+                        dndlogdp = x.values
+                        conc = calc_concentration(diams,dndlogdp,dp1,dp2)
+                        df = pd.DataFrame(index=time, columns=['conc'], data=conc)
+                        result.append(df)
                 return result
 
             else:
@@ -651,3 +650,114 @@ def getConcData(station='HYY',dp1=None,dp2=None,start=None,end=None,dates=None,q
     else:
         raise Exception('Missing "dp1" and "dp2"')
 
+
+
+def calc_cs(time,dp,temp,pres,dNdlogDp):
+    """ Calculate condensation sink """
+
+    Mx=98.08
+    Mair=28.965
+    Dair=19.7
+    Dx=51.96
+    k=8314.7
+
+    R = dp/2.0
+    Pr = pres/101325.
+    Temp = temp
+
+    CS = np.nan * np.ones(len(time))
+
+    for i in range(len(CS)):
+        Dif = (0.001 * (Temp[i]**1.75)*np.sqrt( (1./Mair)+(1./Mx))) / (Pr[i]*(Dair**(1./3.)+Dx**(1./3.))**2.)
+        lam=3.*(np.sqrt( (np.pi*Mx)/(8.*k*Temp[i]) )) * Dif *1e-4
+        knud=lam/R
+        beta=(knud+1.)/((0.377*knud)+1.+(4./(3.*1.))*(knud**2.)+(4./(3.*1))*knud)
+        CS[i] = np.nansum((4.*np.pi*Dif)*dNdlogDp[i,:]*beta*R*1e2)
+
+    df = pd.DataFrame(index=time, columns=['cs'], data=CS)
+    
+    return df
+
+def getCS(station='HYY',start=None,end=None,dates=None,quality='ANY',averaging='1',avg_type='NONE'):
+    """ Calculate CS from aerosol size distribution
+ 
+    Parameters
+    ----------
+ 
+    station: string
+        "HYY", "KUM" or "VAR"
+ 
+    dates: datetime object/string or array of datetime objects/strings
+        the days for which data is/are downloaded
+ 
+    start: datetime object/string
+        begin time for data
+ 
+    end: datetime object/string
+        end time for data
+    
+    quality: string
+        "ANY"
+    
+    averaging: string
+        "1" (no averaging) or "30" (30 minutes) or "60" (60 minutes)
+    
+    avg_type: str
+        "NONE" or "ARITHMETIC" or "MEDIAN" or "MIN" or "MAX"
+ 
+    Returns
+    -------
+    
+    pandas DataFrame or list of DataFrames
+        Calculated condensation sink, 
+        list is given when dates is array    
+     
+        index   : time (utc+2)
+        values  : condensation sink [s-1] 
+ 
+    """
+
+    # Determine the temperature and pressure tablevariables
+    if (station=="KUM"):
+        temp_tv = 'KUM_META.t'
+        pres_tv = 'KUM_META.p'
+    elif (station=="HYY"):
+        temp_tv = 'HYY_META.T84'
+        pres_tv = 'HYY_META.Pamb0'
+    elif (station=="VAR"):
+        temp_tv = 'VAR_META.TDRY0'
+        pres_tv = 'VAR_META.P'
+    else:
+        pass
+
+    # Download the required data
+    dmpsData = getDmpsData(station=station,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+    tempData = getData(temp_tv,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+    presData = getData(pres_tv,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+
+    if isinstance(dmpsData,list):        
+        result = []
+        for i in range(len(dmpsData)):
+            if (dmpsData[i].empty | tempData[i].empty | presData[i].empty):
+                result.append(pd.DataFrame([]))
+            else:
+                dp = dmpsData[i].columns.values
+                dndlogdp = dmpsData[i].values
+                temp = tempData[i].reindex(dmpsData[i].index, method='nearest').values
+                pres = presData[i].reindex(dmpsData[i].index, method='nearest').values
+                time = dmpsData[i].index
+                df = calc_cs(time,dp,temp+273.15,pres*100.0,dndlogdp)
+                result.append(df)
+        return result
+
+    else:
+        if (dmpsData.empty | tempData.empty | presData.empty):
+            return pd.DataFrame([])
+        else:
+            dp = dmpsData.columns.values
+            dndlogdp = dmpsData.values
+            pres = presData.reindex(dmpsData.index, method='nearest').values
+            temp = tempData.reindex(dmpsData.index, method='nearest').values
+            time = dmpsData.index
+            df = calc_cs(time,dp,temp+273.15,pres*100.0,dndlogdp)
+            return df
