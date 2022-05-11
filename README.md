@@ -45,7 +45,7 @@ c = getConcData(station='KUM',dp1=3e-9,dp2=200e-9,start='2021-01-31',end='2021-1
 Download condensation sink from Värriö research station between `2013-07-01` and
 `2013-07-05`
 
-```
+```python
 import pandas as pd
 from smear_api_tools import getCS
 
