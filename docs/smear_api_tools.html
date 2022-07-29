@@ -1,0 +1,1655 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.10.0" />
+<title>smear_api_tools API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>smear_api_tools</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import pandas as pd
+import numpy as np
+import urllib.request, json
+from collections.abc import Iterable
+from datetime import datetime, timedelta
+
+
+__pdoc__ = {
+    &#39;isStr&#39;: False,
+    &#39;isStrIterable&#39;: False,
+    &#39;isDatetime&#39;: False,
+    &#39;isDatetimeIterable&#39;: False,
+    &#39;isNumeric&#39;: False,
+    &#39;isNumericIterable&#39;: False,
+    &#39;parse&#39;: False,
+    &#39;calc_concentration&#39;: False,
+    &#39;calc_cs&#39;: False
+}
+
+
+def isStr(obj):
+    return isinstance(obj,str)
+
+def isStrIterable(obj):
+    result=False
+    if (isinstance(obj,Iterable) &amp; ~isinstance(obj,str)):
+        if all(isinstance(elem,str) for elem in obj):
+            result=True
+    return result
+
+def isDatetime(obj):
+    return isinstance(obj,datetime)
+
+def isDatetimeIterable(obj):
+    result=False
+    if isinstance(obj,Iterable):
+        if all(isinstance(elem,datetime) for elem in obj):
+            result=True
+    return result
+
+def isNumeric(obj):
+    try:
+        float(obj)
+        return True
+    except:
+        return False
+
+def isNumericIterable(obj):
+    result=False
+    if isinstance(obj,Iterable):
+        if all(isNumeric(elem) for elem in obj):
+            result=True
+    return result
+
+def parse(year, month, day, hour, minute, second):
+    return year+ &#39;-&#39; +month+ &#39;-&#39; +day+ &#39; &#39; +hour+ &#39;:&#39; +minute+ &#39;:&#39; +second
+
+def getData(variables,dates=None,start=None,end=None,quality=&#39;ANY&#39;,averaging=&#39;1&#39;,avg_type=&#39;NONE&#39;):
+    &#34;&#34;&#34; Get timeseries of variables using Smart SMEAR API 
+    
+    Parameters
+    ----------
+
+    variables : string or array of strings
+        name of a measured quantity in the database (tablevariable)
+
+    dates : datetime object or string or array of datetime objects or strings
+        the date(s) for which measurements are downloaded
+
+    start : datetime object or string
+        begin of measurement
+
+    end : datetime object or string
+        end of measurement
+    
+    quality : string
+        `&#34;ANY&#34;`
+    
+    averaging : string
+        `&#34;1&#34;` (no averaging), `&#34;30&#34;` (30 min) or `&#34;60&#34;` (60 min)
+    
+    avg_type : string
+        `&#34;NONE&#34;`, `&#34;ARITHMETIC&#34;`, `&#34;MEDIAN&#34;`, `&#34;MIN&#34;` or `&#34;MAX&#34;`
+
+    Returns
+    -------
+    
+    pandas DataFrame or list of DataFrames
+        downloaded data, list is given for array of date objects
+
+    &#34;&#34;&#34;
+
+    if isStrIterable(variables):
+        col_names = [x for x in variables]
+        tablevariables = [&#39;&amp;tablevariable=&#39;+x for x in variables]
+        variable_string = &#39;&#39;.join(list(tablevariables))
+
+    elif isStr(variables):
+        col_names = [variables]
+        variable_string = &#39;&amp;tablevariable=&#39;+variables
+    else:
+        raise Exception(&#39;&#34;variables&#34; must be string or array of strings&#39;)
+
+    if ((start is not None) and (end is not None) and (dates is not None)):
+        raise Exception(&#39;Give either &#34;start&#34; and &#34;end&#34; or &#34;dates&#34;&#39;)
+    
+    if ((start is not None) and (end is not None)):
+        
+        if (isDatetime(start) &amp; isDatetime(end)):
+            pass
+        elif (isStr(start) &amp; isStr(end)):
+            start=pd.to_datetime(start)
+            end=pd.to_datetime(end)    
+        else:
+            raise Exception(&#39;&#34;start&#34; and &#34;end&#34; must be datetime objects or strings&#39;)
+
+        st=start.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+        et=end.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+
+        try:
+ 
+            url_string = &#39;https://smear-backend.rahtiapp.fi/search/timeseries/csv?&#39;\
+                            +variable_string\
+                            +&#39;&amp;from=&#39;+st.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;to=&#39;+et.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;quality=&#39;+quality\
+                            +&#39;&amp;interval=&#39;+averaging\
+                            +&#39;&amp;aggregation=&#39;+avg_type
+
+            data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser = parse) 
+
+        except:
+            return pd.DataFrame([])            
+       
+        if data.empty:
+            return pd.DataFrame([])
+        else:
+            data.set_index(&#39;Year_Month_Day_Hour_Minute_Second&#39;,drop=True,inplace=True)
+            data.index.names=[&#39;time&#39;]
+            data = data.reindex(col_names, axis=1)
+            data.columns = col_names
+            return data
+
+    elif dates is not None:
+        
+        if isDatetimeIterable(dates):
+            is_date_list=True
+        elif isDatetime(dates):
+            dates = [dates]
+            is_date_list=False
+        elif isStrIterable(dates):
+            dates = pd.to_datetime(dates)
+            is_date_list=True
+        elif isStr(dates):
+            dates = [pd.to_datetime(dates)]
+            is_date_list=False
+        else:
+            raise Exception(&#39;&#34;dates&#34; must be datetime object or string or array of datetime objects or strings&#39;)
+
+        datas = []
+        for t in dates:
+            st=t.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+            et=(t+timedelta(days=1)).strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+
+            try:
+
+                url_string = &#39;https://smear-backend.rahtiapp.fi/search/timeseries/csv?&#39;\
+                            +variable_string\
+                            +&#39;&amp;from=&#39;+st.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;to=&#39;+et.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;quality=&#39;+quality\
+                            +&#39;&amp;interval=&#39;+averaging\
+                            +&#39;&amp;aggregation=&#39;+avg_type
+
+                data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser = parse) 
+
+            except:
+                datas.append(pd.DataFrame([]))
+                continue
+
+            if data.empty:
+                datas.append(pd.DataFrame([]))
+                continue
+
+            data.set_index(&#39;Year_Month_Day_Hour_Minute_Second&#39;,drop=True,inplace=True)
+            data.index.names=[&#39;time&#39;]
+            data = data.reindex(col_names, axis=1)
+            data.columns = col_names
+            datas.append(data)
+
+        if (is_date_list==False):
+            return datas[0]
+        else:
+            return datas
+
+    else:
+        raise Exception(&#39;Missing &#34;start&#34; and &#34;end&#34; or &#34;dates&#34;&#39;)
+
+def listAllData(search_term=None,verbose=False):
+    &#34;&#34;&#34; List and describe variables in the SMEAR database 
+
+    Parameters
+    ----------
+    
+    search_term : string
+        search term for searching the database, if `None`
+        all results are returned.
+
+    verbose : boolean
+        verbose or not verbose output
+
+    Returns
+    -------
+
+    pandas DataFrame
+
+    &#34;&#34;&#34;
+
+    # Find variables that contain the search_term in their title
+    if search_term is not None:
+        if isStr(search_term):
+            pass
+        else:
+            raise Exception(&#39;&#34;search_term&#34; should be a string&#39;)
+
+    if isinstance(verbose,bool):
+        pass
+    else:
+        raise Exception(&#39;&#34;verbose&#34; should be True or False&#39;)
+
+    variable_meta_url=&#34;https://smear-backend.rahtiapp.fi/search/variable&#34;
+
+    nums = list(&#34;0123456789x&#34;) 
+    numssub = list(&#34;₀₁₂₃₄₅₆₇₈₉ₓ&#34;)
+
+    # Variable metadata
+    with urllib.request.urlopen(variable_meta_url) as url:
+        variablemetadata = json.loads(url.read().decode())
+
+    # Create dataframe with description and variable name
+    df_verb = pd.DataFrame(columns=[&#39;title&#39;,&#39;tablevariable&#39;,&#39;description&#39;,&#39;source&#39;])
+    df_short = pd.DataFrame(columns=[&#39;title&#39;,&#39;tablevariable&#39;])
+
+    for x in variablemetadata:
+
+        if verbose:
+
+            title = str(x[&#39;title&#39;])
+            tablevariable = x[&#39;tableName&#39;]+&#39;.&#39;+x[&#39;name&#39;]
+            description = str(x[&#39;description&#39;])
+            source = str(x[&#39;source&#39;])
+
+            # Replace subscripted numbers with normal numbers in the names
+            if isStr(title):
+                for i in range(len(nums)):
+                    title = title.replace(numssub[i], nums[i])
+    
+            if isStr(description):
+                for i in range(len(nums)):
+                    description = description.replace(numssub[i], nums[i])
+    
+            if isStr(source):
+                for i in range(len(nums)):
+                    source = source.replace(numssub[i], nums[i])
+    
+            df2 = pd.DataFrame([[
+                title, 
+                tablevariable,
+                description,
+                source]],
+                columns=[&#39;title&#39;,&#39;tablevariable&#39;,&#39;description&#39;,&#39;source&#39;])
+
+            df_verb = df_verb.append(df2,ignore_index=True)
+ 
+        else:
+
+            title = str(x[&#39;title&#39;])
+            tablevariable = x[&#39;tableName&#39;]+&#39;.&#39;+x[&#39;name&#39;]
+
+            # Replace subscripted numbers with normal numbers in the names
+            if isStr(title):
+                for i in range(len(nums)):
+                    title = title.replace(numssub[i], nums[i])
+    
+            df2 = pd.DataFrame([[
+                title, 
+                tablevariable]],
+                columns=[&#39;title&#39;,&#39;tablevariable&#39;])
+
+            df_short = df_short.append(df2,ignore_index=True)
+
+    if verbose:
+        df = df_verb
+    else:
+        df = df_short    
+
+    # Find variables that contain the search_term in their title
+    if search_term is not None:
+        df = df.loc[df[&#39;title&#39;].str.lower().str.find(search_term.lower())!=-1.0,:]
+
+    return df
+
+def getVariableMetadata(variables):
+    &#34;&#34;&#34; Get variable metadata using Smart SMEAR API 
+    
+    Parameters
+    ----------
+
+    variables : string or array of strings
+        name (tablevariable) of a measured quantity in the database
+
+    Returns
+    -------
+
+    dictionary or list of dictionaries
+        metadata for given tablevariables
+        
+    &#34;&#34;&#34;
+
+    if isStrIterable(variables):
+        col_names = [x for x in variables]
+        tablevariables = [&#39;&amp;tablevariable=&#39;+x for x in variables]
+        variable_string = &#39;&#39;.join(list(tablevariables))
+    elif isStr(variables):
+        col_names = [variables]
+        variable_string = &#39;&amp;tablevariable=&#39;+variables
+    else:
+        raise Exception(&#39;&#34;variables&#34; must be string or array of strings&#39;)
+
+    meta_url = &#39;https://smear-backend.rahtiapp.fi/search/variable?&#39;+variable_string
+
+    try:
+        with urllib.request.urlopen(meta_url) as url:
+            metadata = json.loads(url.read().decode())
+    except:
+        metadata = []
+           
+    return metadata
+
+def getDmpsData(station=&#39;HYY&#39;,start=None,end=None,dates=None,quality=&#39;ANY&#39;,averaging=&#39;1&#39;,avg_type=&#39;NONE&#39;):
+    &#34;&#34;&#34; Get DMPS data using Smart SMEAR API 
+    
+    Parameters
+    ----------
+
+    station : string
+        `&#34;HYY&#34;`, `&#34;KUM&#34;` or `&#34;VAR&#34;`
+
+    dates : datetime object or string or array of datetime objects or strings
+        the days for which data is are downloaded
+
+    start : datetime object or string
+        begin time for data
+
+    end : datetime object or string
+        end time for data
+    
+    quality : string
+        `&#34;ANY&#34;`
+    
+    averaging : string
+        `&#34;1&#34;` (no averaging), `&#34;30&#34;` (30 minutes) or `&#34;60&#34;` (60 minutes)
+    
+    avg_type : str
+        `&#34;NONE&#34;`, `&#34;ARITHMETIC&#34;`, `&#34;MEDIAN&#34;`, `&#34;MIN&#34;` or `&#34;MAX&#34;`
+
+    Returns
+    -------
+    
+    pandas DataFrame or list of DataFrames
+        downloaded data, list is given when dates is array 
+        
+        index = time (utc+2)  
+        columns = bin geometric mean diameters (m)  
+        values = dN/dlogDp (cm-3)
+
+    &#34;&#34;&#34;
+
+    variables = [&#39;d100e1&#39;,
+    &#39;d112e1&#39;,
+    &#39;d126e1&#39;,
+    &#39;d141e1&#39;,
+    &#39;d158e1&#39;,
+    &#39;d178e1&#39;,
+    &#39;d200e1&#39;,
+    &#39;d224e1&#39;,
+    &#39;d251e1&#39;,
+    &#39;d282e1&#39;,
+    &#39;d316e1&#39;,
+    &#39;d355e1&#39;,
+    &#39;d398e1&#39;,
+    &#39;d447e1&#39;,
+    &#39;d501e1&#39;,
+    &#39;d562e1&#39;,
+    &#39;d631e1&#39;,
+    &#39;d708e1&#39;,
+    &#39;d794e1&#39;,
+    &#39;d891e1&#39;,
+    &#39;d100e2&#39;,
+    &#39;d112e2&#39;,
+    &#39;d126e2&#39;,
+    &#39;d141e2&#39;,
+    &#39;d158e2&#39;,
+    &#39;d178e2&#39;,
+    &#39;d200e2&#39;,
+    &#39;d224e2&#39;,
+    &#39;d251e2&#39;,
+    &#39;d282e2&#39;,
+    &#39;d316e2&#39;,
+    &#39;d355e2&#39;,
+    &#39;d398e2&#39;,
+    &#39;d447e2&#39;,
+    &#39;d501e2&#39;,
+    &#39;d562e2&#39;,
+    &#39;d631e2&#39;,
+    &#39;d708e2&#39;,
+    &#39;d794e2&#39;,
+    &#39;d891e2&#39;,
+    &#39;d100e3&#39;,
+    &#39;d112e3&#39;,
+    &#39;d126e3&#39;,
+    &#39;d141e3&#39;,
+    &#39;d158e3&#39;,
+    &#39;d178e3&#39;,
+    &#39;d200e3&#39;,
+    &#39;d224e3&#39;,
+    &#39;d251e3&#39;,
+    &#39;d282e3&#39;,
+    &#39;d316e3&#39;,
+    &#39;d355e3&#39;,
+    &#39;d398e3&#39;,
+    &#39;d447e3&#39;,
+    &#39;d501e3&#39;,
+    &#39;d562e3&#39;,
+    &#39;d631e3&#39;,
+    &#39;d708e3&#39;,
+    &#39;d794e3&#39;,
+    &#39;d891e3&#39;,
+    &#39;d100e4&#39;]
+
+    if ((station==&#39;HYY&#39;) | (station==&#39;KUM&#39;) | (station==&#39;VAR&#39;)):
+        col_names = [station + &#39;_DMPS.&#39;+x for x in variables]
+        tablevariables = [&#39;&amp;tablevariable=&#39;+station + &#39;_DMPS.&#39;+x for x in variables]
+        x = &#39;&#39;.join(list(tablevariables))
+        dp = [float(x[1:])*0.001*1e-9 for x in variables]
+    else:
+        raise Exception(&#39;&#34;station&#34; must be &#34;HYY&#34;, &#34;KUM&#34; or &#34;VAR&#34;&#39;)
+
+    if ((start is not None) and (end is not None)):
+
+        if (isDatetime(start) &amp; isDatetime(end)):
+            pass
+        elif (isStr(start) &amp; isStr(end)):
+            start=pd.to_datetime(start)
+            end=pd.to_datetime(end)    
+        else:
+            raise Exception(&#39;&#34;start&#34; and &#34;end&#34; must be datetime objects or strings&#39;)
+
+        st=start.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+        et=end.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+
+        url_string = &#39;https://smear-backend.rahtiapp.fi/search/timeseries/csv?&#39;\
+                            +x\
+                            +&#39;&amp;from=&#39;+st.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;to=&#39;+et.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;quality=&#39;+quality\
+                            +&#39;&amp;interval=&#39;+averaging\
+                            +&#39;&amp;aggregation=&#39;+avg_type
+
+        
+        try:
+            data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+        except:
+            return pd.DataFrame([])
+
+        if data.empty:
+            return pd.DataFrame([])
+        else:
+            data.set_index(&#39;Year_Month_Day_Hour_Minute_Second&#39;,drop=True,inplace=True)
+            data.index.names=[&#39;time&#39;]
+            data = data.reindex(col_names, axis=1)
+            data.columns = dp
+            return data
+
+    elif dates is not None:
+
+        if isDatetimeIterable(dates):
+            is_date_list=True
+        elif isDatetime(dates):
+            dates = [dates]
+            is_date_list=False
+        elif isStrIterable(dates):
+            dates = pd.to_datetime(dates)
+            is_date_list=True
+        elif isStr(dates):
+            dates = [pd.to_datetime(dates)]
+            is_date_list=False
+        else:
+            raise Exception(&#39;&#34;dates&#34; must be datetime object or string or array of datetime objects or strings&#39;)
+
+        datas = []
+        for t in dates:
+            st=t.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+            et=(t+timedelta(days=1)).strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+
+            html_string = &#39;https://smear-backend.rahtiapp.fi/search/timeseries/csv?&#39;\
+                                +x\
+                                +&#39;&amp;from=&#39;+st.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                                +&#39;&amp;to=&#39;+et.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                                +&#39;&amp;quality=&#39;+quality\
+                                +&#39;&amp;interval=&#39;+averaging\
+                                +&#39;&amp;aggregation=&#39;+avg_type
+     
+            try:
+                data = pd.read_csv(html_string, parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+            except:
+                datas.append(pd.DataFrame([]))
+                continue
+
+            if data.empty:
+                datas.append(pd.DataFrame([]))
+                continue
+
+            data.set_index(&#39;Year_Month_Day_Hour_Minute_Second&#39;,drop=True,inplace=True)
+            data.index.names=[&#39;time&#39;]
+            data = data.reindex(col_names, axis=1)
+            data.columns = dp
+            datas.append(data)
+
+        if (is_date_list==False):
+            return datas[0]
+        else:
+            return datas
+
+    else:
+        raise Exception(&#39;Missing &#34;start&#34; and &#34;end&#34; or &#34;dates&#34;&#39;)
+
+
+
+def calc_concentration(dp,data,dmin,dmax):
+    &#34;&#34;&#34; Calculate number concentration &#34;&#34;&#34;
+    findex=np.argwhere((dp&lt;=dmax)&amp;(dp&gt;=dmin)).flatten()
+    if len(findex)==0:
+        return np.nan*np.ones(data.shape[0])
+    dp=dp[findex]
+    conc=data[:,findex]
+    logdp_mid=np.log10(dp)
+    logdp=(logdp_mid[:-1]+logdp_mid[1:])/2.0
+    logdp=np.append(logdp,logdp_mid.max()+(logdp_mid.max()-logdp.max()))
+    logdp=np.insert(logdp,0,logdp_mid.min()-(logdp.min()-logdp_mid.min()))
+    dlogdp=np.diff(logdp)
+    return np.sum(conc*dlogdp,axis=1)
+
+
+def getConcData(station=&#39;HYY&#39;,dp1=None,dp2=None,start=None,end=None,dates=None,quality=&#39;ANY&#39;,averaging=&#39;1&#39;,avg_type=&#39;NONE&#39;):
+    &#34;&#34;&#34; Get number concentration in a size range 
+    
+    Parameters
+    ----------
+
+    station : string
+        `&#34;HYY&#34;`, `&#34;KUM&#34;` or `&#34;VAR&#34;`
+
+    dp1 : float
+        Lower diameter limit in nanometers
+
+    dp2 : float
+        Upper diameter limit in nanometers
+
+    dates : datetime object/string or array of datetime objects/strings
+        the days for which data is are downloaded
+
+    start : datetime object/string
+        begin time for data
+
+    end : datetime object/string
+        end time for data
+    
+    quality : string
+        `&#34;ANY&#34;`
+    
+    averaging : string
+        `&#34;1&#34;` (no averaging), `&#34;30&#34;` (30 minutes) or `&#34;60&#34;` (60 minutes)
+    
+    avg_type : str
+        `&#34;NONE&#34;`, `&#34;ARITHMETIC&#34;`, `&#34;MEDIAN&#34;`, `&#34;MIN&#34;` or `&#34;MAX&#34;`
+
+    Returns
+    -------
+    
+    pandas DataFrame or list of DataFrames
+        Calculated number concentrations, list is given when dates is array
+
+        index = time (utc+2)  
+        values = number concs [cm-3]
+
+    &#34;&#34;&#34;
+   
+    # Use the getDmpsData to retrieve size distribution data
+    dmpsData = getDmpsData(station=station,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+ 
+    if len(dmpsData)==0:
+        return dmpsData
+
+    if (dp1 is not None) and (dp2 is not None):
+
+        if (isNumeric(dp1) and isNumeric(dp2)):
+
+            # dp2 must be greater than dp1
+            if dp2&lt;=dp1:
+                raise Exception(&#34;dp2&gt;dp1&#34;)
+
+            if isinstance(dmpsData,list):
+
+                result=[]
+                for x in dmpsData:
+                    if x.empty:
+                        result.append(pd.DataFrame([]))
+                    else:
+                        time = x.index.values
+                        diams = x.columns.values
+                        dndlogdp = x.values
+                        conc = calc_concentration(diams,dndlogdp,dp1,dp2)
+                        df = pd.DataFrame(index=time, columns=[&#39;conc&#39;], data=conc)
+                        result.append(df)
+                return result
+
+            else:
+                time = dmpsData.index.values
+                diams = dmpsData.columns.values
+                dndlogdp = dmpsData.values
+                conc = calc_concentration(diams,dndlogdp,dp1,dp2)
+                result = pd.DataFrame(index=time, columns=[&#39;conc&#39;], data=conc)
+                return result
+
+        else:
+            raise Exception(&#39;&#34;dp1&#34; and &#34;dp2&#34; must be numeric&#39;)
+
+    else:
+        raise Exception(&#39;Missing &#34;dp1&#34; and &#34;dp2&#34;&#39;)
+
+
+
+def calc_cs(time,dp,temp,pres,dNdlogDp):
+    &#34;&#34;&#34; Calculate condensation sink &#34;&#34;&#34;
+
+    Mx=98.08
+    Mair=28.965
+    Dair=19.7
+    Dx=51.96
+    k=8314.7
+
+    R = dp/2.0
+    Pr = pres/101325.
+    Temp = temp
+
+    CS = np.nan * np.ones(len(time))
+
+    for i in range(len(CS)):
+        Dif = (0.001 * (Temp[i]**1.75)*np.sqrt( (1./Mair)+(1./Mx))) / (Pr[i]*(Dair**(1./3.)+Dx**(1./3.))**2.)
+        lam=3.*(np.sqrt( (np.pi*Mx)/(8.*k*Temp[i]) )) * Dif *1e-4
+        knud=lam/R
+        beta=(knud+1.)/((0.377*knud)+1.+(4./(3.*1.))*(knud**2.)+(4./(3.*1))*knud)
+        CS[i] = np.nansum((4.*np.pi*Dif)*dNdlogDp[i,:]*beta*R*1e2)
+
+    df = pd.DataFrame(index=time, columns=[&#39;cs&#39;], data=CS)
+    
+    return df
+
+def getCS(station=&#39;HYY&#39;,start=None,end=None,dates=None,quality=&#39;ANY&#39;,averaging=&#39;1&#39;,avg_type=&#39;NONE&#39;):
+    &#34;&#34;&#34; Calculate CS from aerosol size distribution
+ 
+    Parameters
+    ----------
+ 
+    station : string
+        `&#34;HYY&#34;`, `&#34;KUM&#34;` or `&#34;VAR&#34;`
+ 
+    dates : datetime object/string or array of datetime objects/strings
+        the days for which data is/are downloaded
+ 
+    start : datetime object/string
+        begin time for data
+ 
+    end : datetime object/string
+        end time for data
+    
+    quality : string
+        `&#34;ANY&#34;`
+    
+    averaging : string
+        `&#34;1&#34;` (no averaging), `&#34;30&#34;` (30 minutes) or `&#34;60&#34;` (60 minutes)
+    
+    avg_type : str
+        `&#34;NONE&#34;`, `&#34;ARITHMETIC&#34;`, `&#34;MEDIAN&#34;`, `&#34;MIN&#34;` or `&#34;MAX&#34;`
+ 
+    Returns
+    -------
+    
+    pandas DataFrame or list of DataFrames
+        Calculated condensation sink, list is given when dates is array
+
+        index = time (utc+2)  
+        values = condensation sink [s-1] 
+ 
+    &#34;&#34;&#34;
+
+    # Determine the temperature and pressure tablevariables
+    if (station==&#34;KUM&#34;):
+        temp_tv = &#39;KUM_META.t&#39;
+        pres_tv = &#39;KUM_META.p&#39;
+    elif (station==&#34;HYY&#34;):
+        temp_tv = &#39;HYY_META.T84&#39;
+        pres_tv = &#39;HYY_META.Pamb0&#39;
+    elif (station==&#34;VAR&#34;):
+        temp_tv = &#39;VAR_META.TDRY0&#39;
+        pres_tv = &#39;VAR_META.P&#39;
+    else:
+        pass
+
+    # Download the required data
+    dmpsData = getDmpsData(station=station,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+    tempData = getData(temp_tv,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+    presData = getData(pres_tv,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+
+    if isinstance(dmpsData,list):        
+        result = []
+        for i in range(len(dmpsData)):
+            if (dmpsData[i].empty | tempData[i].empty | presData[i].empty):
+                result.append(pd.DataFrame([]))
+            else:
+                dp = dmpsData[i].columns.values
+                dndlogdp = dmpsData[i].values
+                temp = tempData[i].reindex(dmpsData[i].index, method=&#39;nearest&#39;).values
+                pres = presData[i].reindex(dmpsData[i].index, method=&#39;nearest&#39;).values
+                time = dmpsData[i].index
+                df = calc_cs(time,dp,temp+273.15,pres*100.0,dndlogdp)
+                result.append(df)
+        return result
+
+    else:
+        if (dmpsData.empty | tempData.empty | presData.empty):
+            return pd.DataFrame([])
+        else:
+            dp = dmpsData.columns.values
+            dndlogdp = dmpsData.values
+            pres = presData.reindex(dmpsData.index, method=&#39;nearest&#39;).values
+            temp = tempData.reindex(dmpsData.index, method=&#39;nearest&#39;).values
+            time = dmpsData.index
+            df = calc_cs(time,dp,temp+273.15,pres*100.0,dndlogdp)
+            return df</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="smear_api_tools.getCS"><code class="name flex">
+<span>def <span class="ident">getCS</span></span>(<span>station='HYY', start=None, end=None, dates=None, quality='ANY', averaging='1', avg_type='NONE')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Calculate CS from aerosol size distribution</p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>station</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"HYY"</code>, <code>"KUM"</code> or <code>"VAR"</code></dd>
+<dt><strong><code>dates</code></strong> :&ensp;<code>datetime object/string</code> or <code>array</code> of <code>datetime objects/strings</code></dt>
+<dd>the days for which data is/are downloaded</dd>
+<dt><strong><code>start</code></strong> :&ensp;<code>datetime object/string</code></dt>
+<dd>begin time for data</dd>
+<dt><strong><code>end</code></strong> :&ensp;<code>datetime object/string</code></dt>
+<dd>end time for data</dd>
+<dt><strong><code>quality</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"ANY"</code></dd>
+<dt><strong><code>averaging</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"1"</code> (no averaging), <code>"30"</code> (30 minutes) or <code>"60"</code> (60 minutes)</dd>
+<dt><strong><code>avg_type</code></strong> :&ensp;<code>str</code></dt>
+<dd><code>"NONE"</code>, <code>"ARITHMETIC"</code>, <code>"MEDIAN"</code>, <code>"MIN"</code> or <code>"MAX"</code></dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pandas DataFrame</code> or <code>list</code> of <code>DataFrames</code></dt>
+<dd>
+<p>Calculated condensation sink, list is given when dates is array</p>
+<p>index = time (utc+2)<br>
+values = condensation sink [s-1]</p>
+</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getCS(station=&#39;HYY&#39;,start=None,end=None,dates=None,quality=&#39;ANY&#39;,averaging=&#39;1&#39;,avg_type=&#39;NONE&#39;):
+    &#34;&#34;&#34; Calculate CS from aerosol size distribution
+ 
+    Parameters
+    ----------
+ 
+    station : string
+        `&#34;HYY&#34;`, `&#34;KUM&#34;` or `&#34;VAR&#34;`
+ 
+    dates : datetime object/string or array of datetime objects/strings
+        the days for which data is/are downloaded
+ 
+    start : datetime object/string
+        begin time for data
+ 
+    end : datetime object/string
+        end time for data
+    
+    quality : string
+        `&#34;ANY&#34;`
+    
+    averaging : string
+        `&#34;1&#34;` (no averaging), `&#34;30&#34;` (30 minutes) or `&#34;60&#34;` (60 minutes)
+    
+    avg_type : str
+        `&#34;NONE&#34;`, `&#34;ARITHMETIC&#34;`, `&#34;MEDIAN&#34;`, `&#34;MIN&#34;` or `&#34;MAX&#34;`
+ 
+    Returns
+    -------
+    
+    pandas DataFrame or list of DataFrames
+        Calculated condensation sink, list is given when dates is array
+
+        index = time (utc+2)  
+        values = condensation sink [s-1] 
+ 
+    &#34;&#34;&#34;
+
+    # Determine the temperature and pressure tablevariables
+    if (station==&#34;KUM&#34;):
+        temp_tv = &#39;KUM_META.t&#39;
+        pres_tv = &#39;KUM_META.p&#39;
+    elif (station==&#34;HYY&#34;):
+        temp_tv = &#39;HYY_META.T84&#39;
+        pres_tv = &#39;HYY_META.Pamb0&#39;
+    elif (station==&#34;VAR&#34;):
+        temp_tv = &#39;VAR_META.TDRY0&#39;
+        pres_tv = &#39;VAR_META.P&#39;
+    else:
+        pass
+
+    # Download the required data
+    dmpsData = getDmpsData(station=station,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+    tempData = getData(temp_tv,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+    presData = getData(pres_tv,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+
+    if isinstance(dmpsData,list):        
+        result = []
+        for i in range(len(dmpsData)):
+            if (dmpsData[i].empty | tempData[i].empty | presData[i].empty):
+                result.append(pd.DataFrame([]))
+            else:
+                dp = dmpsData[i].columns.values
+                dndlogdp = dmpsData[i].values
+                temp = tempData[i].reindex(dmpsData[i].index, method=&#39;nearest&#39;).values
+                pres = presData[i].reindex(dmpsData[i].index, method=&#39;nearest&#39;).values
+                time = dmpsData[i].index
+                df = calc_cs(time,dp,temp+273.15,pres*100.0,dndlogdp)
+                result.append(df)
+        return result
+
+    else:
+        if (dmpsData.empty | tempData.empty | presData.empty):
+            return pd.DataFrame([])
+        else:
+            dp = dmpsData.columns.values
+            dndlogdp = dmpsData.values
+            pres = presData.reindex(dmpsData.index, method=&#39;nearest&#39;).values
+            temp = tempData.reindex(dmpsData.index, method=&#39;nearest&#39;).values
+            time = dmpsData.index
+            df = calc_cs(time,dp,temp+273.15,pres*100.0,dndlogdp)
+            return df</code></pre>
+</details>
+</dd>
+<dt id="smear_api_tools.getConcData"><code class="name flex">
+<span>def <span class="ident">getConcData</span></span>(<span>station='HYY', dp1=None, dp2=None, start=None, end=None, dates=None, quality='ANY', averaging='1', avg_type='NONE')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get number concentration in a size range </p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>station</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"HYY"</code>, <code>"KUM"</code> or <code>"VAR"</code></dd>
+<dt><strong><code>dp1</code></strong> :&ensp;<code>float</code></dt>
+<dd>Lower diameter limit in nanometers</dd>
+<dt><strong><code>dp2</code></strong> :&ensp;<code>float</code></dt>
+<dd>Upper diameter limit in nanometers</dd>
+<dt><strong><code>dates</code></strong> :&ensp;<code>datetime object/string</code> or <code>array</code> of <code>datetime objects/strings</code></dt>
+<dd>the days for which data is are downloaded</dd>
+<dt><strong><code>start</code></strong> :&ensp;<code>datetime object/string</code></dt>
+<dd>begin time for data</dd>
+<dt><strong><code>end</code></strong> :&ensp;<code>datetime object/string</code></dt>
+<dd>end time for data</dd>
+<dt><strong><code>quality</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"ANY"</code></dd>
+<dt><strong><code>averaging</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"1"</code> (no averaging), <code>"30"</code> (30 minutes) or <code>"60"</code> (60 minutes)</dd>
+<dt><strong><code>avg_type</code></strong> :&ensp;<code>str</code></dt>
+<dd><code>"NONE"</code>, <code>"ARITHMETIC"</code>, <code>"MEDIAN"</code>, <code>"MIN"</code> or <code>"MAX"</code></dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pandas DataFrame</code> or <code>list</code> of <code>DataFrames</code></dt>
+<dd>
+<p>Calculated number concentrations, list is given when dates is array</p>
+<p>index = time (utc+2)<br>
+values = number concs [cm-3]</p>
+</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getConcData(station=&#39;HYY&#39;,dp1=None,dp2=None,start=None,end=None,dates=None,quality=&#39;ANY&#39;,averaging=&#39;1&#39;,avg_type=&#39;NONE&#39;):
+    &#34;&#34;&#34; Get number concentration in a size range 
+    
+    Parameters
+    ----------
+
+    station : string
+        `&#34;HYY&#34;`, `&#34;KUM&#34;` or `&#34;VAR&#34;`
+
+    dp1 : float
+        Lower diameter limit in nanometers
+
+    dp2 : float
+        Upper diameter limit in nanometers
+
+    dates : datetime object/string or array of datetime objects/strings
+        the days for which data is are downloaded
+
+    start : datetime object/string
+        begin time for data
+
+    end : datetime object/string
+        end time for data
+    
+    quality : string
+        `&#34;ANY&#34;`
+    
+    averaging : string
+        `&#34;1&#34;` (no averaging), `&#34;30&#34;` (30 minutes) or `&#34;60&#34;` (60 minutes)
+    
+    avg_type : str
+        `&#34;NONE&#34;`, `&#34;ARITHMETIC&#34;`, `&#34;MEDIAN&#34;`, `&#34;MIN&#34;` or `&#34;MAX&#34;`
+
+    Returns
+    -------
+    
+    pandas DataFrame or list of DataFrames
+        Calculated number concentrations, list is given when dates is array
+
+        index = time (utc+2)  
+        values = number concs [cm-3]
+
+    &#34;&#34;&#34;
+   
+    # Use the getDmpsData to retrieve size distribution data
+    dmpsData = getDmpsData(station=station,start=start,end=end,dates=dates,quality=quality,averaging=averaging,avg_type=avg_type)
+ 
+    if len(dmpsData)==0:
+        return dmpsData
+
+    if (dp1 is not None) and (dp2 is not None):
+
+        if (isNumeric(dp1) and isNumeric(dp2)):
+
+            # dp2 must be greater than dp1
+            if dp2&lt;=dp1:
+                raise Exception(&#34;dp2&gt;dp1&#34;)
+
+            if isinstance(dmpsData,list):
+
+                result=[]
+                for x in dmpsData:
+                    if x.empty:
+                        result.append(pd.DataFrame([]))
+                    else:
+                        time = x.index.values
+                        diams = x.columns.values
+                        dndlogdp = x.values
+                        conc = calc_concentration(diams,dndlogdp,dp1,dp2)
+                        df = pd.DataFrame(index=time, columns=[&#39;conc&#39;], data=conc)
+                        result.append(df)
+                return result
+
+            else:
+                time = dmpsData.index.values
+                diams = dmpsData.columns.values
+                dndlogdp = dmpsData.values
+                conc = calc_concentration(diams,dndlogdp,dp1,dp2)
+                result = pd.DataFrame(index=time, columns=[&#39;conc&#39;], data=conc)
+                return result
+
+        else:
+            raise Exception(&#39;&#34;dp1&#34; and &#34;dp2&#34; must be numeric&#39;)
+
+    else:
+        raise Exception(&#39;Missing &#34;dp1&#34; and &#34;dp2&#34;&#39;)</code></pre>
+</details>
+</dd>
+<dt id="smear_api_tools.getData"><code class="name flex">
+<span>def <span class="ident">getData</span></span>(<span>variables, dates=None, start=None, end=None, quality='ANY', averaging='1', avg_type='NONE')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get timeseries of variables using Smart SMEAR API </p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>variables</code></strong> :&ensp;<code>string</code> or <code>array</code> of <code>strings</code></dt>
+<dd>name of a measured quantity in the database (tablevariable)</dd>
+<dt><strong><code>dates</code></strong> :&ensp;<code>datetime object</code> or <code>string</code> or <code>array</code> of <code>datetime objects</code> or <code>strings</code></dt>
+<dd>the date(s) for which measurements are downloaded</dd>
+<dt><strong><code>start</code></strong> :&ensp;<code>datetime object</code> or <code>string</code></dt>
+<dd>begin of measurement</dd>
+<dt><strong><code>end</code></strong> :&ensp;<code>datetime object</code> or <code>string</code></dt>
+<dd>end of measurement</dd>
+<dt><strong><code>quality</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"ANY"</code></dd>
+<dt><strong><code>averaging</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"1"</code> (no averaging), <code>"30"</code> (30 min) or <code>"60"</code> (60 min)</dd>
+<dt><strong><code>avg_type</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"NONE"</code>, <code>"ARITHMETIC"</code>, <code>"MEDIAN"</code>, <code>"MIN"</code> or <code>"MAX"</code></dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pandas DataFrame</code> or <code>list</code> of <code>DataFrames</code></dt>
+<dd>downloaded data, list is given for array of date objects</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getData(variables,dates=None,start=None,end=None,quality=&#39;ANY&#39;,averaging=&#39;1&#39;,avg_type=&#39;NONE&#39;):
+    &#34;&#34;&#34; Get timeseries of variables using Smart SMEAR API 
+    
+    Parameters
+    ----------
+
+    variables : string or array of strings
+        name of a measured quantity in the database (tablevariable)
+
+    dates : datetime object or string or array of datetime objects or strings
+        the date(s) for which measurements are downloaded
+
+    start : datetime object or string
+        begin of measurement
+
+    end : datetime object or string
+        end of measurement
+    
+    quality : string
+        `&#34;ANY&#34;`
+    
+    averaging : string
+        `&#34;1&#34;` (no averaging), `&#34;30&#34;` (30 min) or `&#34;60&#34;` (60 min)
+    
+    avg_type : string
+        `&#34;NONE&#34;`, `&#34;ARITHMETIC&#34;`, `&#34;MEDIAN&#34;`, `&#34;MIN&#34;` or `&#34;MAX&#34;`
+
+    Returns
+    -------
+    
+    pandas DataFrame or list of DataFrames
+        downloaded data, list is given for array of date objects
+
+    &#34;&#34;&#34;
+
+    if isStrIterable(variables):
+        col_names = [x for x in variables]
+        tablevariables = [&#39;&amp;tablevariable=&#39;+x for x in variables]
+        variable_string = &#39;&#39;.join(list(tablevariables))
+
+    elif isStr(variables):
+        col_names = [variables]
+        variable_string = &#39;&amp;tablevariable=&#39;+variables
+    else:
+        raise Exception(&#39;&#34;variables&#34; must be string or array of strings&#39;)
+
+    if ((start is not None) and (end is not None) and (dates is not None)):
+        raise Exception(&#39;Give either &#34;start&#34; and &#34;end&#34; or &#34;dates&#34;&#39;)
+    
+    if ((start is not None) and (end is not None)):
+        
+        if (isDatetime(start) &amp; isDatetime(end)):
+            pass
+        elif (isStr(start) &amp; isStr(end)):
+            start=pd.to_datetime(start)
+            end=pd.to_datetime(end)    
+        else:
+            raise Exception(&#39;&#34;start&#34; and &#34;end&#34; must be datetime objects or strings&#39;)
+
+        st=start.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+        et=end.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+
+        try:
+ 
+            url_string = &#39;https://smear-backend.rahtiapp.fi/search/timeseries/csv?&#39;\
+                            +variable_string\
+                            +&#39;&amp;from=&#39;+st.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;to=&#39;+et.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;quality=&#39;+quality\
+                            +&#39;&amp;interval=&#39;+averaging\
+                            +&#39;&amp;aggregation=&#39;+avg_type
+
+            data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser = parse) 
+
+        except:
+            return pd.DataFrame([])            
+       
+        if data.empty:
+            return pd.DataFrame([])
+        else:
+            data.set_index(&#39;Year_Month_Day_Hour_Minute_Second&#39;,drop=True,inplace=True)
+            data.index.names=[&#39;time&#39;]
+            data = data.reindex(col_names, axis=1)
+            data.columns = col_names
+            return data
+
+    elif dates is not None:
+        
+        if isDatetimeIterable(dates):
+            is_date_list=True
+        elif isDatetime(dates):
+            dates = [dates]
+            is_date_list=False
+        elif isStrIterable(dates):
+            dates = pd.to_datetime(dates)
+            is_date_list=True
+        elif isStr(dates):
+            dates = [pd.to_datetime(dates)]
+            is_date_list=False
+        else:
+            raise Exception(&#39;&#34;dates&#34; must be datetime object or string or array of datetime objects or strings&#39;)
+
+        datas = []
+        for t in dates:
+            st=t.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+            et=(t+timedelta(days=1)).strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+
+            try:
+
+                url_string = &#39;https://smear-backend.rahtiapp.fi/search/timeseries/csv?&#39;\
+                            +variable_string\
+                            +&#39;&amp;from=&#39;+st.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;to=&#39;+et.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;quality=&#39;+quality\
+                            +&#39;&amp;interval=&#39;+averaging\
+                            +&#39;&amp;aggregation=&#39;+avg_type
+
+                data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser = parse) 
+
+            except:
+                datas.append(pd.DataFrame([]))
+                continue
+
+            if data.empty:
+                datas.append(pd.DataFrame([]))
+                continue
+
+            data.set_index(&#39;Year_Month_Day_Hour_Minute_Second&#39;,drop=True,inplace=True)
+            data.index.names=[&#39;time&#39;]
+            data = data.reindex(col_names, axis=1)
+            data.columns = col_names
+            datas.append(data)
+
+        if (is_date_list==False):
+            return datas[0]
+        else:
+            return datas
+
+    else:
+        raise Exception(&#39;Missing &#34;start&#34; and &#34;end&#34; or &#34;dates&#34;&#39;)</code></pre>
+</details>
+</dd>
+<dt id="smear_api_tools.getDmpsData"><code class="name flex">
+<span>def <span class="ident">getDmpsData</span></span>(<span>station='HYY', start=None, end=None, dates=None, quality='ANY', averaging='1', avg_type='NONE')</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get DMPS data using Smart SMEAR API </p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>station</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"HYY"</code>, <code>"KUM"</code> or <code>"VAR"</code></dd>
+<dt><strong><code>dates</code></strong> :&ensp;<code>datetime object</code> or <code>string</code> or <code>array</code> of <code>datetime objects</code> or <code>strings</code></dt>
+<dd>the days for which data is are downloaded</dd>
+<dt><strong><code>start</code></strong> :&ensp;<code>datetime object</code> or <code>string</code></dt>
+<dd>begin time for data</dd>
+<dt><strong><code>end</code></strong> :&ensp;<code>datetime object</code> or <code>string</code></dt>
+<dd>end time for data</dd>
+<dt><strong><code>quality</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"ANY"</code></dd>
+<dt><strong><code>averaging</code></strong> :&ensp;<code>string</code></dt>
+<dd><code>"1"</code> (no averaging), <code>"30"</code> (30 minutes) or <code>"60"</code> (60 minutes)</dd>
+<dt><strong><code>avg_type</code></strong> :&ensp;<code>str</code></dt>
+<dd><code>"NONE"</code>, <code>"ARITHMETIC"</code>, <code>"MEDIAN"</code>, <code>"MIN"</code> or <code>"MAX"</code></dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pandas DataFrame</code> or <code>list</code> of <code>DataFrames</code></dt>
+<dd>
+<p>downloaded data, list is given when dates is array </p>
+<p>index = time (utc+2)<br>
+columns = bin geometric mean diameters (m)<br>
+values = dN/dlogDp (cm-3)</p>
+</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getDmpsData(station=&#39;HYY&#39;,start=None,end=None,dates=None,quality=&#39;ANY&#39;,averaging=&#39;1&#39;,avg_type=&#39;NONE&#39;):
+    &#34;&#34;&#34; Get DMPS data using Smart SMEAR API 
+    
+    Parameters
+    ----------
+
+    station : string
+        `&#34;HYY&#34;`, `&#34;KUM&#34;` or `&#34;VAR&#34;`
+
+    dates : datetime object or string or array of datetime objects or strings
+        the days for which data is are downloaded
+
+    start : datetime object or string
+        begin time for data
+
+    end : datetime object or string
+        end time for data
+    
+    quality : string
+        `&#34;ANY&#34;`
+    
+    averaging : string
+        `&#34;1&#34;` (no averaging), `&#34;30&#34;` (30 minutes) or `&#34;60&#34;` (60 minutes)
+    
+    avg_type : str
+        `&#34;NONE&#34;`, `&#34;ARITHMETIC&#34;`, `&#34;MEDIAN&#34;`, `&#34;MIN&#34;` or `&#34;MAX&#34;`
+
+    Returns
+    -------
+    
+    pandas DataFrame or list of DataFrames
+        downloaded data, list is given when dates is array 
+        
+        index = time (utc+2)  
+        columns = bin geometric mean diameters (m)  
+        values = dN/dlogDp (cm-3)
+
+    &#34;&#34;&#34;
+
+    variables = [&#39;d100e1&#39;,
+    &#39;d112e1&#39;,
+    &#39;d126e1&#39;,
+    &#39;d141e1&#39;,
+    &#39;d158e1&#39;,
+    &#39;d178e1&#39;,
+    &#39;d200e1&#39;,
+    &#39;d224e1&#39;,
+    &#39;d251e1&#39;,
+    &#39;d282e1&#39;,
+    &#39;d316e1&#39;,
+    &#39;d355e1&#39;,
+    &#39;d398e1&#39;,
+    &#39;d447e1&#39;,
+    &#39;d501e1&#39;,
+    &#39;d562e1&#39;,
+    &#39;d631e1&#39;,
+    &#39;d708e1&#39;,
+    &#39;d794e1&#39;,
+    &#39;d891e1&#39;,
+    &#39;d100e2&#39;,
+    &#39;d112e2&#39;,
+    &#39;d126e2&#39;,
+    &#39;d141e2&#39;,
+    &#39;d158e2&#39;,
+    &#39;d178e2&#39;,
+    &#39;d200e2&#39;,
+    &#39;d224e2&#39;,
+    &#39;d251e2&#39;,
+    &#39;d282e2&#39;,
+    &#39;d316e2&#39;,
+    &#39;d355e2&#39;,
+    &#39;d398e2&#39;,
+    &#39;d447e2&#39;,
+    &#39;d501e2&#39;,
+    &#39;d562e2&#39;,
+    &#39;d631e2&#39;,
+    &#39;d708e2&#39;,
+    &#39;d794e2&#39;,
+    &#39;d891e2&#39;,
+    &#39;d100e3&#39;,
+    &#39;d112e3&#39;,
+    &#39;d126e3&#39;,
+    &#39;d141e3&#39;,
+    &#39;d158e3&#39;,
+    &#39;d178e3&#39;,
+    &#39;d200e3&#39;,
+    &#39;d224e3&#39;,
+    &#39;d251e3&#39;,
+    &#39;d282e3&#39;,
+    &#39;d316e3&#39;,
+    &#39;d355e3&#39;,
+    &#39;d398e3&#39;,
+    &#39;d447e3&#39;,
+    &#39;d501e3&#39;,
+    &#39;d562e3&#39;,
+    &#39;d631e3&#39;,
+    &#39;d708e3&#39;,
+    &#39;d794e3&#39;,
+    &#39;d891e3&#39;,
+    &#39;d100e4&#39;]
+
+    if ((station==&#39;HYY&#39;) | (station==&#39;KUM&#39;) | (station==&#39;VAR&#39;)):
+        col_names = [station + &#39;_DMPS.&#39;+x for x in variables]
+        tablevariables = [&#39;&amp;tablevariable=&#39;+station + &#39;_DMPS.&#39;+x for x in variables]
+        x = &#39;&#39;.join(list(tablevariables))
+        dp = [float(x[1:])*0.001*1e-9 for x in variables]
+    else:
+        raise Exception(&#39;&#34;station&#34; must be &#34;HYY&#34;, &#34;KUM&#34; or &#34;VAR&#34;&#39;)
+
+    if ((start is not None) and (end is not None)):
+
+        if (isDatetime(start) &amp; isDatetime(end)):
+            pass
+        elif (isStr(start) &amp; isStr(end)):
+            start=pd.to_datetime(start)
+            end=pd.to_datetime(end)    
+        else:
+            raise Exception(&#39;&#34;start&#34; and &#34;end&#34; must be datetime objects or strings&#39;)
+
+        st=start.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+        et=end.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+
+        url_string = &#39;https://smear-backend.rahtiapp.fi/search/timeseries/csv?&#39;\
+                            +x\
+                            +&#39;&amp;from=&#39;+st.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;to=&#39;+et.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                            +&#39;&amp;quality=&#39;+quality\
+                            +&#39;&amp;interval=&#39;+averaging\
+                            +&#39;&amp;aggregation=&#39;+avg_type
+
+        
+        try:
+            data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+        except:
+            return pd.DataFrame([])
+
+        if data.empty:
+            return pd.DataFrame([])
+        else:
+            data.set_index(&#39;Year_Month_Day_Hour_Minute_Second&#39;,drop=True,inplace=True)
+            data.index.names=[&#39;time&#39;]
+            data = data.reindex(col_names, axis=1)
+            data.columns = dp
+            return data
+
+    elif dates is not None:
+
+        if isDatetimeIterable(dates):
+            is_date_list=True
+        elif isDatetime(dates):
+            dates = [dates]
+            is_date_list=False
+        elif isStrIterable(dates):
+            dates = pd.to_datetime(dates)
+            is_date_list=True
+        elif isStr(dates):
+            dates = [pd.to_datetime(dates)]
+            is_date_list=False
+        else:
+            raise Exception(&#39;&#34;dates&#34; must be datetime object or string or array of datetime objects or strings&#39;)
+
+        datas = []
+        for t in dates:
+            st=t.strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+            et=(t+timedelta(days=1)).strftime(&#34;%Y-%m-%dT%H:%M:%S&#34;)
+
+            html_string = &#39;https://smear-backend.rahtiapp.fi/search/timeseries/csv?&#39;\
+                                +x\
+                                +&#39;&amp;from=&#39;+st.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                                +&#39;&amp;to=&#39;+et.replace(&#39;:&#39;,&#39;%3A&#39;)\
+                                +&#39;&amp;quality=&#39;+quality\
+                                +&#39;&amp;interval=&#39;+averaging\
+                                +&#39;&amp;aggregation=&#39;+avg_type
+     
+            try:
+                data = pd.read_csv(html_string, parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+            except:
+                datas.append(pd.DataFrame([]))
+                continue
+
+            if data.empty:
+                datas.append(pd.DataFrame([]))
+                continue
+
+            data.set_index(&#39;Year_Month_Day_Hour_Minute_Second&#39;,drop=True,inplace=True)
+            data.index.names=[&#39;time&#39;]
+            data = data.reindex(col_names, axis=1)
+            data.columns = dp
+            datas.append(data)
+
+        if (is_date_list==False):
+            return datas[0]
+        else:
+            return datas
+
+    else:
+        raise Exception(&#39;Missing &#34;start&#34; and &#34;end&#34; or &#34;dates&#34;&#39;)</code></pre>
+</details>
+</dd>
+<dt id="smear_api_tools.getVariableMetadata"><code class="name flex">
+<span>def <span class="ident">getVariableMetadata</span></span>(<span>variables)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Get variable metadata using Smart SMEAR API </p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>variables</code></strong> :&ensp;<code>string</code> or <code>array</code> of <code>strings</code></dt>
+<dd>name (tablevariable) of a measured quantity in the database</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>dictionary</code> or <code>list</code> of <code>dictionaries</code></dt>
+<dd>metadata for given tablevariables</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def getVariableMetadata(variables):
+    &#34;&#34;&#34; Get variable metadata using Smart SMEAR API 
+    
+    Parameters
+    ----------
+
+    variables : string or array of strings
+        name (tablevariable) of a measured quantity in the database
+
+    Returns
+    -------
+
+    dictionary or list of dictionaries
+        metadata for given tablevariables
+        
+    &#34;&#34;&#34;
+
+    if isStrIterable(variables):
+        col_names = [x for x in variables]
+        tablevariables = [&#39;&amp;tablevariable=&#39;+x for x in variables]
+        variable_string = &#39;&#39;.join(list(tablevariables))
+    elif isStr(variables):
+        col_names = [variables]
+        variable_string = &#39;&amp;tablevariable=&#39;+variables
+    else:
+        raise Exception(&#39;&#34;variables&#34; must be string or array of strings&#39;)
+
+    meta_url = &#39;https://smear-backend.rahtiapp.fi/search/variable?&#39;+variable_string
+
+    try:
+        with urllib.request.urlopen(meta_url) as url:
+            metadata = json.loads(url.read().decode())
+    except:
+        metadata = []
+           
+    return metadata</code></pre>
+</details>
+</dd>
+<dt id="smear_api_tools.listAllData"><code class="name flex">
+<span>def <span class="ident">listAllData</span></span>(<span>search_term=None, verbose=False)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>List and describe variables in the SMEAR database </p>
+<h2 id="parameters">Parameters</h2>
+<dl>
+<dt><strong><code>search_term</code></strong> :&ensp;<code>string</code></dt>
+<dd>search term for searching the database, if <code>None</code>
+all results are returned.</dd>
+<dt><strong><code>verbose</code></strong> :&ensp;<code>boolean</code></dt>
+<dd>verbose or not verbose output</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>pandas DataFrame</code></dt>
+<dd>&nbsp;</dd>
+</dl></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def listAllData(search_term=None,verbose=False):
+    &#34;&#34;&#34; List and describe variables in the SMEAR database 
+
+    Parameters
+    ----------
+    
+    search_term : string
+        search term for searching the database, if `None`
+        all results are returned.
+
+    verbose : boolean
+        verbose or not verbose output
+
+    Returns
+    -------
+
+    pandas DataFrame
+
+    &#34;&#34;&#34;
+
+    # Find variables that contain the search_term in their title
+    if search_term is not None:
+        if isStr(search_term):
+            pass
+        else:
+            raise Exception(&#39;&#34;search_term&#34; should be a string&#39;)
+
+    if isinstance(verbose,bool):
+        pass
+    else:
+        raise Exception(&#39;&#34;verbose&#34; should be True or False&#39;)
+
+    variable_meta_url=&#34;https://smear-backend.rahtiapp.fi/search/variable&#34;
+
+    nums = list(&#34;0123456789x&#34;) 
+    numssub = list(&#34;₀₁₂₃₄₅₆₇₈₉ₓ&#34;)
+
+    # Variable metadata
+    with urllib.request.urlopen(variable_meta_url) as url:
+        variablemetadata = json.loads(url.read().decode())
+
+    # Create dataframe with description and variable name
+    df_verb = pd.DataFrame(columns=[&#39;title&#39;,&#39;tablevariable&#39;,&#39;description&#39;,&#39;source&#39;])
+    df_short = pd.DataFrame(columns=[&#39;title&#39;,&#39;tablevariable&#39;])
+
+    for x in variablemetadata:
+
+        if verbose:
+
+            title = str(x[&#39;title&#39;])
+            tablevariable = x[&#39;tableName&#39;]+&#39;.&#39;+x[&#39;name&#39;]
+            description = str(x[&#39;description&#39;])
+            source = str(x[&#39;source&#39;])
+
+            # Replace subscripted numbers with normal numbers in the names
+            if isStr(title):
+                for i in range(len(nums)):
+                    title = title.replace(numssub[i], nums[i])
+    
+            if isStr(description):
+                for i in range(len(nums)):
+                    description = description.replace(numssub[i], nums[i])
+    
+            if isStr(source):
+                for i in range(len(nums)):
+                    source = source.replace(numssub[i], nums[i])
+    
+            df2 = pd.DataFrame([[
+                title, 
+                tablevariable,
+                description,
+                source]],
+                columns=[&#39;title&#39;,&#39;tablevariable&#39;,&#39;description&#39;,&#39;source&#39;])
+
+            df_verb = df_verb.append(df2,ignore_index=True)
+ 
+        else:
+
+            title = str(x[&#39;title&#39;])
+            tablevariable = x[&#39;tableName&#39;]+&#39;.&#39;+x[&#39;name&#39;]
+
+            # Replace subscripted numbers with normal numbers in the names
+            if isStr(title):
+                for i in range(len(nums)):
+                    title = title.replace(numssub[i], nums[i])
+    
+            df2 = pd.DataFrame([[
+                title, 
+                tablevariable]],
+                columns=[&#39;title&#39;,&#39;tablevariable&#39;])
+
+            df_short = df_short.append(df2,ignore_index=True)
+
+    if verbose:
+        df = df_verb
+    else:
+        df = df_short    
+
+    # Find variables that contain the search_term in their title
+    if search_term is not None:
+        df = df.loc[df[&#39;title&#39;].str.lower().str.find(search_term.lower())!=-1.0,:]
+
+    return df</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="two-column">
+<li><code><a title="smear_api_tools.getCS" href="#smear_api_tools.getCS">getCS</a></code></li>
+<li><code><a title="smear_api_tools.getConcData" href="#smear_api_tools.getConcData">getConcData</a></code></li>
+<li><code><a title="smear_api_tools.getData" href="#smear_api_tools.getData">getData</a></code></li>
+<li><code><a title="smear_api_tools.getDmpsData" href="#smear_api_tools.getDmpsData">getDmpsData</a></code></li>
+<li><code><a title="smear_api_tools.getVariableMetadata" href="#smear_api_tools.getVariableMetadata">getVariableMetadata</a></code></li>
+<li><code><a title="smear_api_tools.listAllData" href="#smear_api_tools.listAllData">listAllData</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.10.0</a>.</p>
+</footer>
+</body>
+</html>

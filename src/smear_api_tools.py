@@ -4,6 +4,20 @@ import urllib.request, json
 from collections.abc import Iterable
 from datetime import datetime, timedelta
 
+
+__pdoc__ = {
+    'isStr': False,
+    'isStrIterable': False,
+    'isDatetime': False,
+    'isDatetimeIterable': False,
+    'isNumeric': False,
+    'isNumericIterable': False,
+    'parse': False,
+    'calc_concentration': False,
+    'calc_cs': False
+}
+
+
 def isStr(obj):
     return isinstance(obj,str)
 
@@ -47,38 +61,32 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
     Parameters
     ----------
 
-    variables: string or array of strings
-        name of a measured quantity in the database
-        (tablevariable)
+    variables : string or array of strings
+        name of a measured quantity in the database (tablevariable)
 
-    dates: datetime object or string or array of datetime objects or strings
+    dates : datetime object or string or array of datetime objects or strings
         the date(s) for which measurements are downloaded
 
-    start: datetime object or string
+    start : datetime object or string
         begin of measurement
 
-    end: datetime object or string
+    end : datetime object or string
         end of measurement
     
-    quality: string
-        "ANY"
+    quality : string
+        `"ANY"`
     
-    averaging: string
-        "1" (no averaging) or "30" (30 min) or "60" (60 min)
+    averaging : string
+        `"1"` (no averaging), `"30"` (30 min) or `"60"` (60 min)
     
-    avg_type: string
-        "NONE" or "ARITHMETIC" or "MEDIAN" or "MIN" or "MAX"
+    avg_type : string
+        `"NONE"`, `"ARITHMETIC"`, `"MEDIAN"`, `"MIN"` or `"MAX"`
 
     Returns
     -------
     
     pandas DataFrame or list of DataFrames
         downloaded data, list is given for array of date objects
-
-        In the dataframes:
-        index   : time
-        columns : variables
-        values  : data
 
     """
 
@@ -194,36 +202,17 @@ def listAllData(search_term=None,verbose=False):
     Parameters
     ----------
     
-    search_term: string
-        search term for searching the database
+    search_term : string
+        search term for searching the database, if `None`
+        all results are returned.
 
-    verbose: boolean
+    verbose : boolean
         verbose or not verbose output
 
     Returns
     -------
 
-    df: pandas DataFrame
-
-        rows: represent different variables
-
-        if verbose is True:
-        
-            columns:
-                title: name of the variable
-                tablevariable: name used when downloading data
-                description: description of the measurement
-                source: instrument producing the data
-
-        if verbose is False:
-
-            columns:
-                title: name of the variable
-                tablevariable: name used when downloading data
-
-    If search_term is given return only variables that
-    contain the search_term in their title, otherwise
-    return all variables in the database.
+    pandas DataFrame
 
     """
 
@@ -317,13 +306,13 @@ def getVariableMetadata(variables):
     Parameters
     ----------
 
-    variables: string or array of strings
+    variables : string or array of strings
         name (tablevariable) of a measured quantity in the database
 
     Returns
     -------
 
-    dict or list of dicts
+    dictionary or list of dictionaries
         metadata for given tablevariables
         
     """
@@ -354,36 +343,36 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
     Parameters
     ----------
 
-    station: string
-        "HYY", "KUM" or "VAR"
+    station : string
+        `"HYY"`, `"KUM"` or `"VAR"`
 
-    dates: datetime object or string or array of datetime objects or strings
+    dates : datetime object or string or array of datetime objects or strings
         the days for which data is are downloaded
 
-    start: datetime object or string
+    start : datetime object or string
         begin time for data
 
-    end: datetime object or string
+    end : datetime object or string
         end time for data
     
-    quality: string
-        "ANY"
+    quality : string
+        `"ANY"`
     
-    averaging: string
-        "1" (no averaging) or "30" (30 minutes) or "60" (60 minutes)
+    averaging : string
+        `"1"` (no averaging), `"30"` (30 minutes) or `"60"` (60 minutes)
     
-    avg_type: str
-        "NONE" or "ARITHMETIC" or "MEDIAN" or "MIN" or "MAX"
+    avg_type : str
+        `"NONE"`, `"ARITHMETIC"`, `"MEDIAN"`, `"MIN"` or `"MAX"`
 
     Returns
     -------
     
     pandas DataFrame or list of DataFrames
-        downloaded data, list is given when dates is array    
-     
-        index   : time (utc+2)
-        columns : bin geometric mean diameters (m)
-        values  : dN/dlogDp (cm-3)
+        downloaded data, list is given when dates is array 
+        
+        index = time (utc+2)  
+        columns = bin geometric mean diameters (m)  
+        values = dN/dlogDp (cm-3)
 
     """
 
@@ -569,42 +558,42 @@ def getConcData(station='HYY',dp1=None,dp2=None,start=None,end=None,dates=None,q
     Parameters
     ----------
 
-    station: string
-        "HYY", "KUM" or "VAR"
+    station : string
+        `"HYY"`, `"KUM"` or `"VAR"`
 
-    dp1: float
+    dp1 : float
         Lower diameter limit in nanometers
 
-    dp2: float
+    dp2 : float
         Upper diameter limit in nanometers
 
-    dates: datetime object/string or array of datetime objects/strings
+    dates : datetime object/string or array of datetime objects/strings
         the days for which data is are downloaded
 
-    start: datetime object/string
+    start : datetime object/string
         begin time for data
 
-    end: datetime object/string
+    end : datetime object/string
         end time for data
     
-    quality: string
-        "ANY"
+    quality : string
+        `"ANY"`
     
-    averaging: string
-        "1" (no averaging) or "30" (30 minutes) or "60" (60 minutes)
+    averaging : string
+        `"1"` (no averaging), `"30"` (30 minutes) or `"60"` (60 minutes)
     
-    avg_type: str
-        "NONE" or "ARITHMETIC" or "MEDIAN" or "MIN" or "MAX"
+    avg_type : str
+        `"NONE"`, `"ARITHMETIC"`, `"MEDIAN"`, `"MIN"` or `"MAX"`
 
     Returns
     -------
     
     pandas DataFrame or list of DataFrames
-        Calculated number concentrations, 
-        list is given when dates is array    
-     
-        index   : time (utc+2)
-        values  : number concs [cm-3]
+        Calculated number concentrations, list is given when dates is array
+
+        index = time (utc+2)  
+        values = number concs [cm-3]
+
     """
    
     # Use the getDmpsData to retrieve size distribution data
@@ -684,36 +673,35 @@ def getCS(station='HYY',start=None,end=None,dates=None,quality='ANY',averaging='
     Parameters
     ----------
  
-    station: string
-        "HYY", "KUM" or "VAR"
+    station : string
+        `"HYY"`, `"KUM"` or `"VAR"`
  
-    dates: datetime object/string or array of datetime objects/strings
+    dates : datetime object/string or array of datetime objects/strings
         the days for which data is/are downloaded
  
-    start: datetime object/string
+    start : datetime object/string
         begin time for data
  
-    end: datetime object/string
+    end : datetime object/string
         end time for data
     
-    quality: string
-        "ANY"
+    quality : string
+        `"ANY"`
     
-    averaging: string
-        "1" (no averaging) or "30" (30 minutes) or "60" (60 minutes)
+    averaging : string
+        `"1"` (no averaging), `"30"` (30 minutes) or `"60"` (60 minutes)
     
-    avg_type: str
-        "NONE" or "ARITHMETIC" or "MEDIAN" or "MIN" or "MAX"
+    avg_type : str
+        `"NONE"`, `"ARITHMETIC"`, `"MEDIAN"`, `"MIN"` or `"MAX"`
  
     Returns
     -------
     
     pandas DataFrame or list of DataFrames
-        Calculated condensation sink, 
-        list is given when dates is array    
-     
-        index   : time (utc+2)
-        values  : condensation sink [s-1] 
+        Calculated condensation sink, list is given when dates is array
+
+        index = time (utc+2)  
+        values = condensation sink [s-1] 
  
     """
 

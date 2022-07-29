@@ -8,6 +8,8 @@ This project contains functions that help interacting with the SmartSMEAR API.
 pip install smear-api-tools
 ```
 
+## [Documentation](https://jlpl.github.io/smear-api-tools/)
+
 ## Usage
 
 ### Example 1
