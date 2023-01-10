@@ -33,27 +33,6 @@ from smear_api_tools import listAllData
 listAllData("SO2").to_csv("all_so2_data.csv")
 ```
 
-### Example 3
-Download number concentration between 3 nm and 200 nm from the urban measurement station in Kumpula for the year 2021.
-
-```python
-import pandas as pd
-from smear_api_tools import getConcData
-
-c = getConcData(station='KUM',dp1=3e-9,dp2=200e-9,start='2021-01-31',end='2021-12-31')
-```
-
-### Example 4
-Download condensation sink from Värriö research station between `2013-07-01` and
-`2013-07-05`
-
-```python
-import pandas as pd
-from smear_api_tools import getCS
-
-cs = getCS(station='VAR',start="2013-07-01",end="2013-07-05")
-```
-
 ## Resources
 
 Junninen, H., Lauri, A., Keronen, P., Aalto, P., Hiltunen, V., Hari, P., Kulmala, M. 2009. Smart-SMEAR: on-line data exploration and visualization tool for SMEAR stations. Boreal Environment Research 14, 447–457.
