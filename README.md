@@ -4,7 +4,7 @@ This project contains functions that help interacting with the SmartSMEAR API.
 
 ## Installation
 
-``shell
+```shell
 pip install smear-api-tools
 ```
 
