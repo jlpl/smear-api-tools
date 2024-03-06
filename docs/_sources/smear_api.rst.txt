@@ -1,0 +1,8 @@
+smear\_api package
+==================
+
+smear\_api.tools module
+-----------------------
+
+.. automodule:: smear_api.tools
+   :members:

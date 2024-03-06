@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>smear_api package &#8212; smear-api-tools 0.3.0 documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="modules.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="smear-api-package">
+<h1>smear_api package<a class="headerlink" href="#smear-api-package" title="Permalink to this heading">¶</a></h1>
+<section id="module-smear_api.tools">
+<span id="smear-api-tools-module"></span><h2>smear_api.tools module<a class="headerlink" href="#module-smear_api.tools" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="smear_api.tools.getData">
+<span class="sig-prename descclassname"><span class="pre">smear_api.tools.</span></span><span class="sig-name descname"><span class="pre">getData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ANY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averaging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NONE'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/jlpl/smear-api-tools/blob/master/src/smear_api/tools.py#L41"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#smear_api.tools.getData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get timeseries of variables using Smart SMEAR API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>variables</strong><span class="classifier">string or array of strings</span></dt><dd><p>name of a measured quantity in the database (tablevariable)</p>
+</dd>
+<dt><strong>dates</strong><span class="classifier">datetime object or string or array of datetime objects or strings</span></dt><dd><p>the date(s) for which measurements are downloaded</p>
+</dd>
+<dt><strong>start</strong><span class="classifier">datetime object or string</span></dt><dd><p>begin of measurement</p>
+</dd>
+<dt><strong>end</strong><span class="classifier">datetime object or string</span></dt><dd><p>end of measurement</p>
+</dd>
+<dt><strong>quality</strong><span class="classifier">string</span></dt><dd><p><cite>“ANY”</cite></p>
+</dd>
+<dt><strong>averaging</strong><span class="classifier">string</span></dt><dd><p><cite>“1”</cite> (no averaging), <cite>“30”</cite> (30 min) or <cite>“60”</cite> (60 min)</p>
+</dd>
+<dt><strong>avg_type</strong><span class="classifier">string</span></dt><dd><p><cite>“NONE”</cite>, <cite>“ARITHMETIC”</cite>, <cite>“MEDIAN”</cite>, <cite>“MIN”</cite> or <cite>“MAX”</cite></p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>pandas DataFrame or list of DataFrames</dt><dd><p>downloaded data, list is given for array of date objects</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="smear_api.tools.getDmpsData">
+<span class="sig-prename descclassname"><span class="pre">smear_api.tools.</span></span><span class="sig-name descname"><span class="pre">getDmpsData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">station</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'HYY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dates</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quality</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ANY'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averaging</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">avg_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'NONE'</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/jlpl/smear-api-tools/blob/master/src/smear_api/tools.py#L328"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#smear_api.tools.getDmpsData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get DMPS data using Smart SMEAR API</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>station</strong><span class="classifier">string</span></dt><dd><p><cite>“HYY”</cite>, <cite>“KUM”</cite> or <cite>“VAR”</cite></p>
+</dd>
+<dt><strong>dates</strong><span class="classifier">datetime object or string or array of datetime objects or strings</span></dt><dd><p>the days for which data is are downloaded</p>
+</dd>
+<dt><strong>start</strong><span class="classifier">datetime object or string</span></dt><dd><p>begin time for data</p>
+</dd>
+<dt><strong>end</strong><span class="classifier">datetime object or string</span></dt><dd><p>end time for data</p>
+</dd>
+<dt><strong>quality</strong><span class="classifier">string</span></dt><dd><p><cite>“ANY”</cite></p>
+</dd>
+<dt><strong>averaging</strong><span class="classifier">string</span></dt><dd><p><cite>“1”</cite> (no averaging), <cite>“30”</cite> (30 minutes) or <cite>“60”</cite> (60 minutes)</p>
+</dd>
+<dt><strong>avg_type</strong><span class="classifier">str</span></dt><dd><p><cite>“NONE”</cite>, <cite>“ARITHMETIC”</cite>, <cite>“MEDIAN”</cite>, <cite>“MIN”</cite> or <cite>“MAX”</cite></p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt>pandas DataFrame or list of DataFrames</dt><dd><p>downloaded data, list is given when dates is array</p>
+<p>index = time (utc+2)  
+columns = bin geometric mean diameters (m)  
+values = dN/dlogDp (cm-3)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="smear_api.tools.getVariableMetadata">
+<span class="sig-prename descclassname"><span class="pre">smear_api.tools.</span></span><span class="sig-name descname"><span class="pre">getVariableMetadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variables</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/jlpl/smear-api-tools/blob/master/src/smear_api/tools.py#L291"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#smear_api.tools.getVariableMetadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get variable metadata using Smart SMEAR API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>variables</strong><span class="classifier">string or array of strings</span></dt><dd><p>name (tablevariable) of a measured quantity in the database</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>dictionary or list of dictionaries</dt><dd><p>metadata for given tablevariables</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="smear_api.tools.listAllData">
+<span class="sig-prename descclassname"><span class="pre">smear_api.tools.</span></span><span class="sig-name descname"><span class="pre">listAllData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">search_term</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/jlpl/smear-api-tools/blob/master/src/smear_api/tools.py#L187"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#smear_api.tools.listAllData" title="Permalink to this definition">¶</a></dt>
+<dd><p>List and describe variables in the SMEAR database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>search_term</strong><span class="classifier">string</span></dt><dd><p>search term for searching the database, if <cite>None</cite>
+all results are returned.</p>
+</dd>
+<dt><strong>verbose</strong><span class="classifier">boolean</span></dt><dd><p>verbose or not verbose output</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>pandas DataFrame</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="version">
+<center><a href="https://jlpl.github.io/smear-api-tools/">Home</a></center>
+<center><a href="https://github.com/jlpl/smear-api-tools">Github page</a></center>
+<br>
+<center>v. 0.3.0</center>
+<br>
+</div><h3><a href="index.html"></a></h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">smear_api package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-smear_api.tools">smear_api.tools module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#smear_api.tools.getData"><code class="docutils literal notranslate"><span class="pre">getData()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#smear_api.tools.getDmpsData"><code class="docutils literal notranslate"><span class="pre">getDmpsData()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#smear_api.tools.getVariableMetadata"><code class="docutils literal notranslate"><span class="pre">getVariableMetadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#smear_api.tools.listAllData"><code class="docutils literal notranslate"><span class="pre">listAllData()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, jlpl.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 6.1.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.13</a>
+      
+      |
+      <a href="_sources/smear_api.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

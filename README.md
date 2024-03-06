@@ -4,11 +4,12 @@ This project contains functions that help interacting with the SmartSMEAR API.
 
 ## Installation
 
-```python
+``shell
 pip install smear-api-tools
 ```
 
-## [Documentation](https://jlpl.github.io/smear-api-tools/)
+## Documentation 
+See [here](https://jlpl.github.io/smear-api-tools/)
 
 ## Usage
 
@@ -17,7 +18,7 @@ Download DMPS data from Hyytiälä field station for each day in May, 2018
 
 ```python
 import pandas as pd
-from smear_api_tools import getDmpsData
+from smear_api.tools import getDmpsData
 
 may2018 = pd.date_range(start='2018-05-01',end='2018-05-31')
 v = getDmpsData(station='HYY',dates=may2018)
@@ -28,7 +29,7 @@ List all variables that contain the term "SO2" in the database and write them to
 
 ```python
 import pandas as pd
-from smear_api_tools import listAllData
+from smear_api.tools import listAllData
 
 listAllData("SO2").to_csv("all_so2_data.csv")
 ```

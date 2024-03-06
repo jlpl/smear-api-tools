@@ -4,17 +4,6 @@ import urllib.request, json
 from collections.abc import Iterable
 from datetime import datetime, timedelta
 
-__pdoc__ = {
-    'isStr': False,
-    'isStrIterable': False,
-    'isDatetime': False,
-    'isDatetimeIterable': False,
-    'isNumeric': False,
-    'isNumericIterable': False,
-    'parse': False,
-}
-
-
 def isStr(obj):
     return isinstance(obj,str)
 
@@ -48,9 +37,6 @@ def isNumericIterable(obj):
         if all(isNumeric(elem) for elem in obj):
             result=True
     return result
-
-def parse(year, month, day, hour, minute, second):
-    return year+ '-' +month+ '-' +day+ ' ' +hour+ ':' +minute+ ':' +second
 
 def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1',avg_type='NONE'):
     """ Get timeseries of variables using Smart SMEAR API 
@@ -124,7 +110,7 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
                             +'&interval='+averaging\
                             +'&aggregation='+avg_type
 
-            data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser = parse) 
+            data = pd.read_csv(url_string) 
 
         except:
             return pd.DataFrame([])            
@@ -132,7 +118,10 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
         if data.empty:
             return pd.DataFrame([])
         else:
-            data.set_index('Year_Month_Day_Hour_Minute_Second',drop=True,inplace=True)
+
+            combined_datetime = pd.to_datetime(data[["Year","Month","Day","Hour","Minute","Second"]])
+            data.set_index(combined_datetime,inplace=True)
+            data.drop(columns=["Year","Month","Day","Hour","Minute","Second"], inplace=True)
             data.index.names=['time']
             data = data.reindex(col_names, axis=1)
             data.columns = col_names
@@ -169,7 +158,7 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
                             +'&interval='+averaging\
                             +'&aggregation='+avg_type
 
-                data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser = parse) 
+                data = pd.read_csv(url_string) 
 
             except:
                 datas.append(pd.DataFrame([]))
@@ -179,8 +168,10 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
                 datas.append(pd.DataFrame([]))
                 continue
 
-            data.set_index('Year_Month_Day_Hour_Minute_Second',drop=True,inplace=True)
-            data.index.names=['time']
+            combined_datetime = pd.to_datetime(data[["Year","Month","Day","Hour","Minute","Second"]])
+            data.set_index(combined_datetime,inplace=True)
+            data.drop(columns=["Year","Month","Day","Hour","Minute","Second"], inplace=True)
+            data.index.names = ['time']
             data = data.reindex(col_names, axis=1)
             data.columns = col_names
             datas.append(data)
@@ -267,7 +258,7 @@ def listAllData(search_term=None,verbose=False):
                 source]],
                 columns=['title','tablevariable','description','source'])
 
-            df_verb = df_verb.append(df2,ignore_index=True)
+            df_verb = pd.concat((df_verb,df2),ignore_index=True)
  
         else:
 
@@ -284,7 +275,7 @@ def listAllData(search_term=None,verbose=False):
                 tablevariable]],
                 columns=['title','tablevariable'])
 
-            df_short = df_short.append(df2,ignore_index=True)
+            df_short = pd.concat((df_short,df2),ignore_index=True)
 
     if verbose:
         df = df_verb
@@ -466,14 +457,16 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
 
         
         try:
-            data = pd.read_csv(url_string, parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+            data = pd.read_csv(url_string)
         except:
             return pd.DataFrame([])
 
         if data.empty:
             return pd.DataFrame([])
         else:
-            data.set_index('Year_Month_Day_Hour_Minute_Second',drop=True,inplace=True)
+            combined_datetime = pd.to_datetime(data[["Year","Month","Day","Hour","Minute","Second"]])
+            data.set_index(combined_datetime,inplace=True)
+            data.drop(columns=["Year","Month","Day","Hour","Minute","Second"], inplace=True)
             data.index.names=['time']
             data = data.reindex(col_names, axis=1)
             data.columns = dp
@@ -509,7 +502,7 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
                                 +'&aggregation='+avg_type
      
             try:
-                data = pd.read_csv(html_string, parse_dates = [[0,1,2,3,4,5]], date_parser=parse)
+                data = pd.read_csv(html_string)
             except:
                 datas.append(pd.DataFrame([]))
                 continue
@@ -518,7 +511,9 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
                 datas.append(pd.DataFrame([]))
                 continue
 
-            data.set_index('Year_Month_Day_Hour_Minute_Second',drop=True,inplace=True)
+            combined_datetime = pd.to_datetime(data[["Year","Month","Day","Hour","Minute","Second"]])
+            data.set_index(combined_datetime,inplace=True)
+            data.drop(columns=["Year","Month","Day","Hour","Minute","Second"], inplace=True)
             data.index.names=['time']
             data = data.reindex(col_names, axis=1)
             data.columns = dp
