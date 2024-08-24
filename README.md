@@ -2,10 +2,12 @@
 
 This project contains functions that help interacting with the SmartSMEAR API.
 
+Latest version: 0.4.0
+
 ## Installation
 
 ```shell
-pip install smear-api-tools
+pip install git+https://github.com/jlpl/smear-api-tools.git
 ```
 
 ## Documentation 

@@ -102,7 +102,7 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
 
         try:
  
-            url_string = 'https://smear-backend.rahtiapp.fi/search/timeseries/csv?'\
+            url_string = 'https://smear-backend.2.rahtiapp.fi/search/timeseries/csv?'\
                             +variable_string\
                             +'&from='+st.replace(':','%3A')\
                             +'&to='+et.replace(':','%3A')\
@@ -150,7 +150,7 @@ def getData(variables,dates=None,start=None,end=None,quality='ANY',averaging='1'
 
             try:
 
-                url_string = 'https://smear-backend.rahtiapp.fi/search/timeseries/csv?'\
+                url_string = 'https://smear-backend.2.rahtiapp.fi/search/timeseries/csv?'\
                             +variable_string\
                             +'&from='+st.replace(':','%3A')\
                             +'&to='+et.replace(':','%3A')\
@@ -216,7 +216,7 @@ def listAllData(search_term=None,verbose=False):
     else:
         raise Exception('"verbose" should be True or False')
 
-    variable_meta_url="https://smear-backend.rahtiapp.fi/search/variable"
+    variable_meta_url="https://smear-backend.2.rahtiapp.fi/search/variable"
 
     nums = list("0123456789x") 
     numssub = list("₀₁₂₃₄₅₆₇₈₉ₓ")
@@ -315,7 +315,7 @@ def getVariableMetadata(variables):
     else:
         raise Exception('"variables" must be string or array of strings')
 
-    meta_url = 'https://smear-backend.rahtiapp.fi/search/variable?'+variable_string
+    meta_url = 'https://smear-backend.2.rahtiapp.fi/search/variable?'+variable_string
 
     try:
         with urllib.request.urlopen(meta_url) as url:
@@ -447,7 +447,7 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
         st=start.strftime("%Y-%m-%dT%H:%M:%S")
         et=end.strftime("%Y-%m-%dT%H:%M:%S")
 
-        url_string = 'https://smear-backend.rahtiapp.fi/search/timeseries/csv?'\
+        url_string = 'https://smear-backend.2.rahtiapp.fi/search/timeseries/csv?'\
                             +x\
                             +'&from='+st.replace(':','%3A')\
                             +'&to='+et.replace(':','%3A')\
@@ -493,7 +493,7 @@ def getDmpsData(station='HYY',start=None,end=None,dates=None,quality='ANY',avera
             st=t.strftime("%Y-%m-%dT%H:%M:%S")
             et=(t+timedelta(days=1)).strftime("%Y-%m-%dT%H:%M:%S")
 
-            html_string = 'https://smear-backend.rahtiapp.fi/search/timeseries/csv?'\
+            html_string = 'https://smear-backend.2.rahtiapp.fi/search/timeseries/csv?'\
                                 +x\
                                 +'&from='+st.replace(':','%3A')\
                                 +'&to='+et.replace(':','%3A')\
