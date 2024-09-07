@@ -1,4 +1,4 @@
-# SMEAR API Tools
+# `smear-api-tools` package
 
 This project contains functions that help interacting with the SmartSMEAR API.
 
